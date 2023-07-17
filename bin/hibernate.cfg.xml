@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+    <property name="hibernate.connection.url">jdbc:oracle:thin:@10.10.132.31:3521/HLIFRSP</property>    
+    
+    <property name="hibernate.connection.username">IQCMOWN</property>
+    <property name="hibernate.connection.password">LHT!DU*3</property>
+    
+    <!--
+    SID = HLIFRSP1 
+    <property name="hibernate.connection.username">IQCMOWN</property>
+    <property name="hibernate.connection.password">LHT!DU*3</property>
+
+    <property name="hibernate.connection.username">IESGOWN</property>
+    <property name="hibernate.connection.password">ZQCP<9XL</property>
+    -->
+
+    <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>   
+          
+    <!-- <property name="show_sql">true</property> -->
+    
+    <!-- 
+    <property name="hibernate.jdbc.batch_size">50</property>
+    <property name="hibernate.order_inserts">true</property>
+    <property name="hibernate.order_updates">true</property>
+    
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">50</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    
+    <property name="hibernate.generate_statistics">true</property>
+    
+    <property name="hibernate.current_session_context_class">thread</property>    
+     -->      
+     
+    <property name="hibernate.physical_naming_strategy">com.gof.util.PhysicalNamingStrategyImpl</property>    
+        
+    <!-- for Tables starting with KICS -->    
+    
+    <mapping class="com.gof.entity.KicsAssetSecr"/>
+    <mapping class="com.gof.entity.KicsAssetLoan"/>
+    <mapping class="com.gof.entity.KicsAssetFide"/>
+    <mapping class="com.gof.entity.KicsAssetAcco"/>    
+    <mapping class="com.gof.entity.KicsInstCurve"/>
+    <mapping class="com.gof.entity.KicsAssetResult"/>    
+    <mapping class="com.gof.entity.IrScenario"/>    
+    <mapping class="com.gof.entity.KicsFssScen"/>    
+    <mapping class="com.gof.entity.KicsShckStk"/>     
+    <mapping class="com.gof.entity.IrCurve"/>    
+    <mapping class="com.gof.entity.IrCurveHis"/>        
+    <mapping class="com.gof.entity.IrCurveHis2"/>    
+    <mapping class="com.gof.entity.RefRateCoef"/>    
+    <mapping class="com.gof.entity.RefRateMap"/>
+      
+  </session-factory>
+</hibernate-configuration>
+
+		
