@@ -16,7 +16,8 @@ public class PhysicalNamingStrategyImpl extends PhysicalNamingStrategyStandardIm
 	public Identifier toPhysicalSchemaName(Identifier name, JdbcEnvironment context) {
 		// TODO Auto-generated method stub
     	if(super.toPhysicalSchemaName(name, context)==null) {
-    		return new Identifier("IQCMOWN", false);
+    		return new Identifier("PUBLIC", false);
+//    		return new Identifier("IQCMOWN", false);
 //    		return new Identifier("IESGOWN", false);
     	}
 		return super.toPhysicalSchemaName(name, context);

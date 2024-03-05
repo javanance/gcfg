@@ -22,15 +22,21 @@ public class HibernateUtil {
 	  
 	public static SessionFactory getSessionFactory() {
 		Map<String, String> settings = new HashMap<String,String>();
-		settings.put(Environment.DRIVER, "oracle.jdbc.driver.OracleDriver");
+		
+		settings.put(Environment.DRIVER,  "org.h2.Driver");
+		settings.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
+		settings.put(Environment.URL,     "jdbc:h2:tcp://localhost/d:/H2/data/ASSET");			
+		settings.put(Environment.USER,    "HKL");	
+		settings.put(Environment.PASS,    "test");	
+		
+//		settings.put(Environment.DRIVER, "oracle.jdbc.driver.OracleDriver");
 //		settings.put(Environment.URL,    "jdbc:oracle:thin:@10.10.132.31:3521/HLIFRSP");		
-		settings.put(Environment.URL,    "jdbc:oracle:thin:@10.18.132.31:3521/HLIFRSD");		
-		settings.put(Environment.USER, "IQCMOWN");
-		settings.put(Environment.PASS, "qcmown15!");
+//		settings.put(Environment.URL,    "jdbc:oracle:thin:@10.18.132.31:3521/HLIFRSD");		
+//		settings.put(Environment.USER, "IQCMOWN");
+//		settings.put(Environment.PASS, "qcmown15!");
 //		settings.put(Environment.USER, "IESGOWN");
 //		settings.put(Environment.PASS, "ZQCP<9XL");
-
-		settings.put(Environment.DIALECT, "org.hibernate.dialect.Oracle10gDialect");
+//		settings.put(Environment.DIALECT, "org.hibernate.dialect.Oracle10gDialect");
 		
 		return genSessionFactory(settings);
 	}

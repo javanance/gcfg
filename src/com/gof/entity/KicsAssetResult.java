@@ -59,6 +59,7 @@ public class KicsAssetResult implements Serializable, EntityIdIdentifier, Clonea
 	@Id
 	private Integer scenNum;	
 
+	@Column(name = "`VALUE`")
 	private Double value;	
 		
 	private String fundCd;
