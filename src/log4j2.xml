@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- 일별 파일 로그 설정 -->
+        <RollingFile name="logfile" fileName="D:/gcfg.log"
+                     filePattern="D:/gcfg-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d{HH:mm:ss}][%-5p](%F:%L) - %m%n"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+        
+        <!-- 콘솔 로그 설정 -->
+        <Console name="console">
+            <PatternLayout pattern="[%d{HH:mm:ss}][%-5p] %m%n"/>
+        </Console>
+    </Appenders>
+    
+    <!-- 로거 설정 -->
+    <Loggers>
+        <!-- Root 로거 설정 -->
+        <Root level="INFO">
+            <!-- 콘솔과 파일로 로그 출력 -->
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="logfile"/>
+        </Root>
+        
+        <!-- com.gof 패키지에 대한 로거 설정 -->
+        <Logger name="com.gof" level="DEBUG" additivity="false">
+            <!-- com.gof 로그에 대한 Appender 참조 -->
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="logfile"/>
+        </Logger>
+        
+        <!-- Hibernate에 대한 로거 설정 -->
+        <Logger name="org.hibernate" level="INFO" additivity="false">
+            <!-- Hibernate 로그에 대한 Appender 참조 -->
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="logfile"/>
+        </Logger>
+    </Loggers>
+</Configuration>
