@@ -84,9 +84,9 @@ public class DerivativesKtbFutures extends DerivativesAbstract {
     
     /**
      * TODO: protected double getKtbForwardRate() {return getAppliedBaseRate() + getImpliedSpread();}
-     * this.baseRate -> ±¹Ã¤¼±¹° ³»Àç¼±µµ±Ý¸®¸¦ ±¸ÇÏ´Â °úÁ¤¿¡¼­ ³»Àç¼±µµ±Ý¸® ÀÚÃ¼º¸´Ù´Â ±âÁØ½Ã³ª¸®¿À(Rf Spot)À» ±âÁØÀ¸·Î ÇÏ´Â spread¸¦ ±¸ÇÏ±â À§ÇÑ ¸ñÀûÀ¸·Î µµÀÔÇÏ¿´À½
-     * ÀÌÈÄ ±Ý¸®½Ã³ª¸®¿À¿¡¼­ Rf½Ã³ª¸®¿À°ª¿¡ °áÁ¤µÈ spread¸¦ ´õÇÏ´Â ½ÄÀ¸·Î ÁøÇà --> °á±¹ ÀÌ°ÍÀÌ implied Spread¿Í µ¿ÀÏÇÑ °³³äÀÌ µÉ °ÍÀÓ (spread°¡ °íÁ¤ÀÌÁö baseRate°¡ °íÁ¤Àº ¾Æ´Ï¹Ç·Î)  
-     * Ä¶¸®ºê·¹ÀÌ¼Ç ¼öÇàÈÄ impliedSpread ´Â DerivativesAbstract¸¦ °ÅÄ¡¸ç, ½ÇÁ¦ ÇÒÀÎ±Ý¸®°ª¿¡ ´õÇØÁ®¼­ ¼¼ÆÃµÊ. Áï, appliedBaseRate + impliedSpread (from DerivativesAbstarct)°¡ ÇÔ²² unit price°è»ê¿¡ µé¾î°¨
+     * this.baseRate -> ï¿½ï¿½Ã¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ç¼±ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ç¼±ï¿½ï¿½ï¿½Ý¸ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½Ø½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½(Rf Spot)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ spreadï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½
+     * ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¸ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Rfï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ spreadï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ --> ï¿½á±¹ ï¿½Ì°ï¿½ï¿½ï¿½ implied Spreadï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (spreadï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ baseRateï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¹Ç·ï¿½)  
+     * Ä¶ï¿½ï¿½ï¿½ê·¹ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ impliedSpread ï¿½ï¿½ DerivativesAbstractï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î±Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½. ï¿½ï¿½, appliedBaseRate + impliedSpread (from DerivativesAbstarct)ï¿½ï¿½ ï¿½Ô²ï¿½ unit priceï¿½ï¿½ê¿¡ ï¿½ï¿½î°¨
      */
 	protected void setPayoffAmount() throws Exception {	    
 	    
@@ -196,8 +196,10 @@ public class DerivativesKtbFutures extends DerivativesAbstract {
     }    
 
     /**
-     * this.spotPriceBase ´Â ±¹Ã¤¼±¹°ÀÇ °æ¿ì ÇöÀç ½ÃÀå°¡°ÝÀÌ´Ù. ÀÌ ½ÃÀå°¡¸¦ ±âÁØÀ¸·Î ÇöÀç Àû¿ëµÇ´Â ³»Àç YTM(Àû¿ë¼±µµ±Ý¸®)¸¦ µµÃâÇÏ´Â °úÁ¤À» °ÅÄ£´Ù.
-     * this.spotPrice/PriceBase´Â ÁÖ½ÄÃæ°Ý°ú ¹«°üÇÑ °ªÀÌ´Ù. KTB FUTURESÀÇ °æ¿ì 100¿øÀ¸·Î È¯»êµÈ ½ÃÀå°¡°ÝÀÓ.
+     * this.spotPriceBase ï¿½ï¿½ ï¿½ï¿½Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å°¡ï¿½ï¿½ï¿½Ì´ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½å°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ YTM(ï¿½ï¿½ï¿½ë¼±ï¿½ï¿½ï¿½Ý¸ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä£ï¿½ï¿½.
+     * this.spotPrice/PriceBaseï¿½ï¿½ ï¿½Ö½ï¿½ï¿½ï¿½Ý°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½. KTB FUTURESï¿½ï¿½ ï¿½ï¿½ï¿½ 100ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¯ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å°¡ï¿½ï¿½ï¿½ï¿½.
+     *  this.spotPriceBaseëŠ” ê¸°ì¤€ ê°€ê²©ì„ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤. í˜„ìž¬ ê°€ê²©ì¸ this.spotPriceê°€ ê¸°ì¤€ ê°€ê²©ì—ì„œ ì–¼ë§ˆë‚˜ ë²—ì–´ë‚¬ëŠ”ì§€ë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤. 
+     *  ì´ëŠ” í˜„ìž¬ ê°€ê²©ì´ ê¸°ì¤€ ê°€ê²©ì— ë¹„í•´ ì–¼ë§ˆë‚˜ ë‚®ê±°ë‚˜ ë†’ì€ì§€ë¥¼ ë‚˜íƒ€ë‚´ë©°, ì´ëŠ” í˜„ìž¬ ê°€ê²©ì´ ê¸°ì¤€ ê°€ê²©ì„ ê¸°ì¤€ìœ¼ë¡œ í•œ YTM(ë§Œê¸°ìˆ˜ìµë¥ )ì— ê¸°ë°˜í•˜ì—¬ ëª¨ë¸ë§ë˜ì—ˆìŠµë‹ˆë‹¤.
      */
     @Override
     protected double getImpliedSpread() throws Exception {    	

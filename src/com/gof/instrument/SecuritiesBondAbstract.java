@@ -131,8 +131,9 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 		this.irCurveId               = DEFAULT_KRW_RFCURVE_ID;
 		this.irCurve                 = null;
 
+		// 24.06.19 ë”ë¯¸ : ì½”ë“œì—ì„œ irCurveë¥¼ ì‚¬ìš©í•˜ì§€ ì•ŠìŒ.
 		if(entity.getIrCurve() == null || entity.getIrCurve().isEmpty()) {			
-			log.warn("IrCurve Data is not found at {}!!!", baseDate);		
+//			log.warn("IrCurve Data is not found at {}!!!", baseDate);		
 		}
 		else if(!entity.getIrCurve().isEmpty() && !entity.getIrCurve().get(0).getIrCurveHis().isEmpty()) {			
 			
@@ -148,7 +149,7 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 		    //log.warn("IrCurveHis Data is not found at {}!!!", baseDate);
 		}		
 		
-		log.info("Set Instrument  in BondAbstract");
+//		log.info("Set Instrument  in BondAbstract");
 	}	
 	
 
@@ -160,7 +161,7 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 		this.scenarioCurveHis = scenarioCurveHis;
 		this.impSpread        = GeneralUtil.objectToPrimitive(spread);		
 		this.setIrCurve();				
-		//log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}, {}", this.scenNum, this.scenarioCurveHis.size());
+		log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}, {}", this.scenNum, this.scenarioCurveHis.size());
 	}
 	
 	
@@ -176,11 +177,17 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 	}
 	
 	/**TODO
-	 * this.currency.equals(DEFAULT_CURRENCY) --> ¿ø·¡´Â ¿øÈ­Ä¿ºê¸¦ »ìÆìº¸±â À§ÇÑ °ÍÀÌ¾úÀ¸¸ç.. ÆÄ»ıÀº Ä¶¸®ºê·¹ÀÌ¼ÇÀ» ÇÏ³ª¸¸ ÇØ¾ßÇÏ¹Ç·Î ±×·¸°Ô Çß´Ù...(ÇÏ³ª¸¸? ¿øÈ­¸¸?)
-	 * isIrCalibrationÀº FALSE(0)»óÅÂ·Î ÃÖÃÊ¿¡ ÃÊ±âÈ­°¡ µÈ´Ù. 
-	 * setScenarioCurveHis°¡ È£ÃâµÇ´Â °æ¿ì¸¸ implied spread¸¦ µµÃâÇÏ°í ±×¿Ü¿¡´Â °è»êÇÏÁö ¾Ê´Â´Ù. °á±¹ standardÀÏ¶§¸¸ ¾ÈÇÑ´Ù?
-	 * ¸®ÆÑÅä¸µÀÌ ÇÊ¿äÇÑ ¿µ¿ªÀÓ ´Ù¸¥ Å¬·¡½º¿¡¼­ setter·Î Ã³¸®??? ½ºÇÁ·¹µå Æ÷ÇÔ...
-	 * setIrCurveHisÀÇ matTermIntRate´Â ½ºÇÁ·¹µå¸¦ Ã³¸®ÇÒ ÇÊ¿ä°¡ ÀÖ´Ù? ¾ø´Ù? (ÃÊ±â°ªÀº 0.0ÀÌ¹Ç·Î °ª¿¡´Â ¹®Á¦´Â ¾ø¾î º¸ÀÓ)
+	 * this.currency.equals(DEFAULT_CURRENCY) --> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­Ä¿ï¿½ê¸¦ ï¿½ï¿½ï¿½ìº¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½Ä»ï¿½ï¿½ï¿½ Ä¶ï¿½ï¿½ï¿½ê·¹ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ß´ï¿½...(ï¿½Ï³ï¿½ï¿½ï¿½? ï¿½ï¿½È­ï¿½ï¿½?)
+	 * isIrCalibrationï¿½ï¿½ FALSE(0)ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½È´ï¿½. 
+	 * setScenarioCurveHisï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ì¸¸ implied spreadï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½×¿Ü¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½. ï¿½á±¹ standardï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½?
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ä¸µï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ setterï¿½ï¿½ Ã³ï¿½ï¿½??? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
+	 * setIrCurveHisï¿½ï¿½ matTermIntRateï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¸¦ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ä°¡ ï¿½Ö´ï¿½? ï¿½ï¿½ï¿½ï¿½? (ï¿½Ê±â°ªï¿½ï¿½ 0.0ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+	 * 
+	 * this.currency.equals(DEFAULT_CURRENCY) --> ê¸°ë³¸ í™”íì½”ë“œë¥¼ ë§ì¶”ë ¤ê³  í–ˆëŠ”ë° ë‹¤ë¥´ê²Œ ì ìš©ëë„¤ìš”.. ì•„ë§ˆë„ ì½”ë“œì— ë‘ ê°€ì§€ íƒ€ì…ì´ ìˆì–´ì„œ ê·¸ëŸ° ê²ƒ ê°™ìŠµë‹ˆë‹¤...(í•˜ë‚˜ëŠ”? ê¸°ë³¸í™”í?)
+	 * isIrCalibrationì´ FALSE(0)ì¼ë•Œë§Œ ì´ˆê¸°í™”ê°€ ë©ë‹ˆë‹¤.
+	 * setScenarioCurveHisë¥¼ í˜¸ì¶œí•˜ëŠ” ì‹œì ì— implied spreadë¥¼ ì ìš©í•˜ê³  ê·¸ ì´í›„ì—ëŠ” ì—…ë°ì´íŠ¸í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. ì•„ë§ˆë„ standardë¥¼ ë§ì¶”ë ¤ê³  í•˜ëŠ” ê²ƒ ê°™ìŠµë‹ˆë‹¤?
+	 * í•„ìš”í•˜ë‹¤ë©´ ë‹¤ë¥¸ í´ë˜ìŠ¤ì—ì„œ setterë¥¼ í†µí•´ ì²˜ë¦¬í•˜ëŠ” ê²ƒë„ ê³ ë ¤í•´ë³¼ê¹Œìš”? ê¸°ë³¸ ì„¤ì •ì€ ë¬¸ì œê°€ ì—†ì§€ë§Œ...
+	 * setIrCurveHisì—ì„œ matTermIntRateì— ëŒ€í•œ ì¶”ê°€ ì²˜ë¦¬ê°€ í•„ìš”í•œê°€ìš”? ì˜ˆë¥¼ ë“¤ì–´ ì´ˆê¸°ê°’ì´ 0.0ì´ê¸° ë•Œë¬¸ì— ê³„ì‚°ì— ë¬¸ì œê°€ ìˆì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 	 */	
 	private void setScenarioCurveHis() throws Exception {		
 		
@@ -232,10 +239,15 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 	
 
 	/**
-	 * MAIN¿¡¼­ ¼³Á¤µÇ´Â ÇÔ¼ö·Î¼­ º» Å¬·¡½º ¾È¿¡¼­´Â Á÷Á¢ È£ÃâÀº ¾øÀ½
-	 * adjMaturityDate¿ª½Ã ¾àÁ¤¸¸±â·Î ÃÊ±âÈ¸ µÇÁö¸¸, ÀÌ ÇÔ¼ö°¡ ¼³Á¤ÀÌ µÊÀ¸·Î¼­, calibration ´Ü°èÀÇ impliedMaturity°¡ Å¬·¡½º¿¡ ¼³Á¤µÊ
-	 * else ±¸¹®ÀÌÇÏ¿¡¼­ ¿Ö ÀÌ·¸°Ô Çß´ÂÁö »ı°¢À» Á¤¸®ÇØ¾ßÇÑ´Ù.
-	 * ¸¸±â»óÈ¯À²ÀÌ Á¸ÀçÇÏ´Â ³à¼®µé¿¡ ´ëÇØ¼­´Â º» ¸Ş¼Òµå Àû¿ëÀ» Àç°ËÅäÇØ¾ßÇÒµíÇÔ
+	 * MAINï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Ô¼ï¿½ï¿½Î¼ï¿½ ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	 * adjMaturityDateï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½, calibration ï¿½Ü°ï¿½ï¿½ï¿½ impliedMaturityï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * else ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ß´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½à¼®ï¿½é¿¡ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ş¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Òµï¿½ï¿½ï¿½
+	 * 
+	 * MAINì—ì„œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ì´ë©° ì´ í´ë˜ìŠ¤ ì•ˆì—ì„œë§Œ í˜¸ì¶œí•  ìˆ˜ ìˆìŒ
+	 * adjMaturityDateê°€ ìƒì„±ë˜ì§€ ì•Šì€ ì´ˆê¸°í™” ìƒíƒœì—ì„œëŠ”, ì´ í•¨ìˆ˜ê°€ ì œëŒ€ë¡œ ë™ì‘í•˜ì§€ ì•ŠìŒ, calibration ê³¼ì •ì—ì„œ impliedMaturityê°€ í´ë˜ìŠ¤ì— ì„¸íŒ…ë˜ì–´ì•¼ í•¨
+	 * else ë¸”ë¡ì—ì„œëŠ” ì´ì™€ ê°™ì€ ìƒí™©ì„ ì²˜ë¦¬í•˜ë„ë¡ ì½”ë“œë¥¼ ì‘ì„±í•´ì•¼ í•¨.
+	 * í™˜ê²½ì„¤ì •ì„ ë³€ê²½í•˜ëŠ” ëª¨ë“ˆë“¤ì— ëŒ€í•´ì„œë„ ì´ ë©”ì„œë“œë¥¼ í˜¸ì¶œí•˜ë„ë¡ êµ¬ì„±í•´ì•¼ í•¨.
 	 */
 	@Override
 	public void setImpliedMaturity(Double impliedMaturityDays) throws Exception {
@@ -352,7 +364,7 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 	}	
 	
 	/**
-	 * Macaulay Duration¿¡¼­ ¼öÁ¤µà·¹ÀÌ¼ÇÀ¸·Î ³Ñ¾î°¡´Â °úÁ¤¿¡¼­ paymentTermÀÌ µé¾î°¡´Â°¡ ¾Æ´Ñ°¡...compoundPeriodÀÌ¾î¾ßÇÏ³ª?...
+	 * Macaulay Durationì„ ê³„ì‚°í•˜ëŠ” ë° ìˆì–´ì„œ paymentTermì„ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ë§ëŠ”ì§€ í™•ì¸ í•„ìš”... compoundPeriodê°€ ì•„ë‹Œì§€ í™•ì¸...
 	 */
 	protected double getModifiedDuration() throws Exception {
 		//return getMacaulayDuration() / (1.0 + getYieldToMaturity());
@@ -390,8 +402,12 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
     }
 
     /**
-     * TODO: priceÀÇ currency¸¦ ¹Ş¾Æ¼­...getPresentValue¿¡ ¸ÂÃß¾î µ¿±âÈ­¸¦ ÇÏ´Â ¹æ¹ıÀÌ ÇÊ¿äÇÏ´Ù.
-     * È¤Àº pvPositiveÀÇ °ªÀ» ¹Ù·Î È£ÃâÇÏ´Â ¸Ş¼­µå¸¦ ¼³°èÇÏ´Â °Íµµ ¹æ¹ıÀÌ´Ù. °á±¹ ÇÔ¼ö¸¦ È£ÃâÇÏ´Â ¹æ¹ıÀ» Ã£¾Æ¾ß ÇÒ °ÍÀÌ´Ù. 
+     * TODO: priceï¿½ï¿½ currencyï¿½ï¿½ ï¿½Ş¾Æ¼ï¿½...getPresentValueï¿½ï¿½ ï¿½ï¿½ï¿½ß¾ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´ï¿½.
+     * È¤ï¿½ï¿½ pvPositiveï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ş¼ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½. ï¿½á±¹ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æ¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½. 
+     * 
+     * priceì™€ currencyë¥¼ ë°›ì•„ì„œ...getPresentValueì™€ ëª‡ì„ ì²˜ë¦¬í•˜ëŠ” ë°˜ì˜ì„ í•˜ëŠ” ê²ƒì´ ì•„ë‹ˆë‹¤. 
+     * ì—¬ê¸°ì„œ pvPositiveì™€ ì •ëŒ€ë¥¼ í˜¸ì¶œí•˜ëŠ” í•œ ë²ˆì˜ ë©”ì„œë“œë¥¼ ë³„ë„ë¡œ í•˜ëŠ” ë°©ë²•ì…ë‹ˆë‹¤. 
+     * ì´ë¥¼ í™œìš©í•˜ê¸° ìœ„í•œ íŒì€ í™œìš©ì´ í•˜ëŠ” ë‹¤ë¥¸ ê¸°ëŠ¥ì„ ë„£ìœ¼ì…”ì•¼ í•œë‹¤.
      */
     private double getYieldToMaturity(double targetBsAmt, double initGuess) throws Exception {
     	
@@ -489,10 +505,10 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
     }    
     
     /**
-     * TODO: this.isIrCalibrationÀº calibration°úÁ¤ ¹× IR shock °úÁ¤¿¡¼­ ¸ğµÎ INTEGER_TRUEÀÇ ¼Ó¼ºÀ» Áö´Ñ´Ù.
-     * ´Ù¸¸, ÀÌ ¸Ş¼­µå °ª ÀÚÃ¼´Â Ä¶¸®ºê·¹ÀÌ¼Ç ÇÁ·Î¼¼½º¿¡¼­¸¸ total MAP¿¡ ÀúÀåµÇ¾î »ç¿ëµÇ°í ³ª¸ÓÁö IR ShockÇÁ·Î¼¼½º¿¡¼­´Â Æ¯º°ÇÑ ÀÇ¹Ì¸¦ °®Áö ¾Ê´Â´Ù.
-     * ¶ÇÇÑ FX½Ã³ª¸®¿À ¹× ÁÖ½ÄÃæ°İ½Ã³ª¸®¿À¿¡¼­µµ calibration°úÁ¤¿¡¼­ µµÃâµÈ ³»Àç½ºÇÁ·¹µå¸¦ ±×´ë·Î »ç¿ëÇÏ¹Ç·Î, µµÃâµÈ °ªÀº º°´Ù¸¥ ÀÇ¹Ì°¡ ¾ø´Ù.
-     * ¾Æ¿ï·¯, IrCalibrationÇÁ·Î¼¼½º°¡ ÇÊ¿ä¾ø´Â(StanDard ½Ã³ª¸®¿À) »óÈ²¿¡¼­´Â ÀÌ °ª ÀÚÃ¼¸¦ °è»êÇÏÁö ¾Ê´Â´Ù.
+		TODO: this.isIrCalibrationì´ calibrationë˜ì—ˆê³  IR shock ì „ì†¡í•˜ëŠ” ê²½ìš° INTEGER_TRUEì˜ ì†ì„±ì„ ì„¤ì •í•œë‹¤.
+		ë˜í•œ, ì´ ë©”ì„œë“œ ë‚´ ê°ì²´ì˜ ì»¬ë ‰ì…˜ìœ¼ë¡œ ì‚¬ìš©í•˜ê¸° ìœ„í•´ total MAPì— ì €ì¥ëœ ì •ë³´ì™€ ì¼ì¹˜í•˜ëŠ” IR Shockì´ ì˜¬ë°”ë¥´ê²Œ ì „ì†¡ëœë‹¤.
+		ë”°ë¼ì„œ FXì „ì†¡ìœ¼ë¡œë¶€í„° ìµœì‹ í™˜ìœ¨ì •ë³´ë¥¼ calibrationí•˜ëŠ” ì ˆì°¨ë¥¼ ë”°ë¼ì„œ, ì´ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸í•˜ëŠ” ì‘ì—…ì„ ìˆ˜í–‰í•´ì•¼ í•œë‹¤.
+		ê¸°ë³¸ì ìœ¼ë¡œ IrCalibrationì´ ì‚¬ìš©ë˜ëŠ”(StanDard ì „ì†¡ì„) í™œìš©í•˜ì—¬ ì´ ë©”ì„œë“œ ë‚´ ì»¬ë ‰ì…˜ì´ ì˜¬ë°”ë¥´ê²Œ ì „ì†¡ëœë‹¤.
      */
     private double getImpliedSpread(double targetBsAmt, double initGuess) throws Exception {
     	
@@ -558,11 +574,12 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
     }		
 		
     /**
-     * this.result.setValue(Math.floor(this.interestPayoffAmount[i] * fxRatio)) -> floor Á¦¿Ü °ËÅä ÇÊ¿ä (1¿ø¾¿ ºÎÁ·ÇØÁö´Â °æ¿ì Á¸Àç)
+     * this.result.setValue(Math.floor(this.interestPayoffAmount[i] * fxRatio)) -> floor í•¨ìˆ˜ë¥¼ ì¶”ê°€í•  í•„ìš”ê°€ ìˆìŒ (1ì› ë¯¸ë§Œì˜ ì†Œìˆ˜ì  ì²˜ë¦¬ë¥¼ ìœ„í•´ í•„ìš”)
      */	
 	public List<KicsAssetResult> getValuation(boolean currencyType) throws Exception {		
 		
 //		log.info("At getValuation : {}", currencyType);
+		// time bucketë³„ í˜„ê¸ˆíë¦„ ìƒì„± 
 		evaluateCashflow();		
 	    
 		List<KicsAssetResult> cflist = new ArrayList<KicsAssetResult>();

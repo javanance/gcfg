@@ -30,7 +30,9 @@ public class SecuritiesBondCoupon extends SecuritiesBondAbstract {
 	}
 	
 	/**
-	 * TODO: this.dcntCmpdPeriod     = this.paymentTerm;  --> 3°³¿ùÀÌÇ¥Ã¤ÀÇ °æ¿ì 12°³¿ù·Î ÇÒÀÎÇÑ°æ¿ì¿Í ºñ±³ÇÒ ¶§ adjMaturityDate¿¡µµ ¿µÇâÀ» ¹ÌÄ¥ ¼ö ÀÖÀ½(durationÂ÷ÀÌ)
+	 * TODO: this.dcntCmpdPeriod     = this.paymentTerm;  --> 
+	 * 3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¥Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ 12ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ adjMaturityDateï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(durationï¿½ï¿½ï¿½ï¿½)
+	 * 3ê°œì›”ê¸°ì¤€ í‘œì¤€ ì•„ì´í…œ ê¸°ì¤€ìœ¼ë¡œ 12ê°œì›”ì˜ ìµœì¢…ê°€ê²© ë° ê¸°ê°„ì„ adjMaturityDate ê¸°ì¤€ìœ¼ë¡œ ìˆ˜ì •í•˜ê³  ì‚°ì¶œí•©ë‹ˆë‹¤ (durationì€ ê¸°ê°„ì„ ëœ»í•©ë‹ˆë‹¤).
 	 */
 	protected void setAttributes() throws Exception {			
 		

@@ -41,15 +41,15 @@ public class SecuritiesBondCompound extends SecuritiesBondAbstract {
 		
 		switch(EInstrument.getEInstrument(this.instTpcd + String.valueOf(this.instDtlsTpcd)).getInstCode()) {		
 		
-			case INST_BOND_SCB : {
+			case INST_BOND_SCB : { // 102
 				this.cmpdMethod = CMPD_MTD_SIMP;
 				break;    
 			}
-			case INST_BOND_DCB : {
+			case INST_BOND_DCB : { // 103
 				this.cmpdMethod = CMPD_MTD_DISC; 
 				break;			
 			}
-			case INST_BOND_C5S2: {
+			case INST_BOND_C5S2: { // 110
 				this.cmpdMethod = CMPD_MTD_EXOTIC;
 				this.transDate = this.issueDate.plusYears(5);
 				break;

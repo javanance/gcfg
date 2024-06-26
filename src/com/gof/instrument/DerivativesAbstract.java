@@ -196,6 +196,8 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		this.fxVal            = null;
 	}	
 
+	/** TODO: í¬ì§€ì…˜ë³„ ì»¤ë¸Œë¥¼ ê°€ì ¸ì™€ì•¼ í•˜ëŠ” ê²½ìš° KRW (default currencyê°€ ì•„ë‹ˆë©´ ì„¤ì •ì„ ëª»í•˜ê³  ìˆìŒ.)ìˆ˜ì • í•„ìš”.
+	 * {@link DerivativesAbstract#setIrCurve()} */
 	@Override
 	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) {
 		
@@ -682,13 +684,13 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		this.isRealNumber            = GeneralUtil.objectToPrimitive(entity.getIsRealNumber());
 		this.isRealNumber            = true;
 		//log.info("real number:{}", this.isRealNumber);
-		this.irCurveHis              = new HashMap<String, Map<String, IrCurveHis>>();		
+		this.irCurveHis              = new HashMap<String, Map<String, IrCurveHis>>();
 		this.recIrCurveId            = DEFAULT_KRW_RFCURVE_ID;
 		this.payIrCurveId            = DEFAULT_KRW_RFCURVE_ID;
 		this.irCurve                 = null;
 	
 		if(entity.getIrCurve() == null || entity.getIrCurve().isEmpty()) {			
-			log.warn("IrCurve Data is not found at {}!!!", baseDate);		
+//			log.warn("IrCurve Data is not found at {}!!!", baseDate);		
 		}
 		else if(!entity.getIrCurve().isEmpty() && !entity.getIrCurve().get(0).getIrCurveHis().isEmpty()) {			
 				
@@ -696,7 +698,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 				this.payIrCurveId            = entity.getIrCurve().get(0).getIrCurveId();				
 				this.irCurve                 = entity.getIrCurve();				
 				for(IrCurve irc : irCurve) irCurveHis.put(irc.getIrCurveId(), irc.getIrCurveHis());
-				//log.info("{}, {}, {}", entity.getIrCurve().get(0).getIrCurveId(), entity.getIrCurve(), entity.getIrCurve().get(0));				
+//				log.info("{}, {}, {}", entity.getIrCurve().get(0).getIrCurveId(), entity.getIrCurve(), entity.getIrCurve().get(0));				
 				
 				setIrCurve();
 		}
@@ -705,7 +707,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		    //log.warn("IrCurveHis Data is not found at {}!!!", baseDate);
 		}		
 	}
-
+	
 	private void setIrCurve() {		
 		
 		if(scenarioCurveHis != null && !scenarioCurveHis.isEmpty()) {			
@@ -727,8 +729,8 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 
 
 	/**
-	 * TODO: ¿¹Àü¿¡ ÀÌ·¸°Ô ÄÚµùÇÑ ÀÌÀ¯¸¦ ÆÄ¾ÇÇØ¾ß ÇÑ´Ù. ¹°·Ğ ¼öÃë/Áö±Ş ·¹±×º°·Î ´Ù¸£±â´Â ÇÒ°Å´Ù. ´Ü, ¿ÜÈ­ÀÚ»êÀº ¾Æ·¡ÀÇ ÃÖÃÊ ifÁ¶°Ç¿¡¼­ ¹ş¾î³­´Ù.(DEF_CURRENCY °¡ ¾Æ´Ô)
-	 * isRecIrCalibrationÀº FALSE(0)»óÅÂ·Î ÃÖÃÊ¿¡ ÃÊ±âÈ­°¡ µÈ´Ù. 
+	 * TODO: ì´ ë¶€ë¶„ì˜ ì½”ë“œë¥¼ ìˆ˜ì •í•´ì•¼ í•œë‹¤. í˜„ì¬ ë¡œì§/êµ¬ì¡° ìƒì—ì„œ ì í•©í•˜ì§€ ì•Šë‹¤. ì¦‰, í™˜ìœ¨ ì‹œë‚˜ë¦¬ì˜¤ ì•„ë˜ì˜ íŠ¹ì • ifë¬¸ì—ì„œ ë¹ ì ¸ ë‚˜ê°„ë‹¤. (DEF_CURRENCYê°€ ì•„ë‹Œ ê²½ìš°)
+	 * isRecIrCalibrationì€ FALSE(0)ë¡œ ê¸°ë³¸ê°’ì´ ì´ˆê¸°í™”ë˜ì–´ ìˆë‹¤.
 	 */
 	private void setRecScenarioCurveHis() {
 		
@@ -746,14 +748,14 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		}
 		else setRecIrCurveHis();		
 		
-		log.info("rec dis rate : {},{},{}", scenNum, recDiscountSpread, recMatTermIntRate);
-		log.info("rec dis rate aaa: {},{},{}", scenNum, recDiscountSpread, recMatTerm);
+//		log.info("rec dis rate : {},{},{}", scenNum, recDiscountSpread, recMatTermIntRate);
+//		log.info("rec dis rate aaa: {},{},{}", scenNum, recDiscountSpread, recMatTerm);
 		dcntRecMatTerm = recMatTerm;		 
 		dcntRecMatTermIntRate = recMatTermIntRate;
 	}
 	
 	private void setPayScenarioCurveHis() {		
-		log.info("pay in setIr: {},{},{}", payIrCurveId, payCurrency, DEF_CURRENCY);
+		log.info("pay in set IR: {},{},{}", payIrCurveId, payCurrency, DEF_CURRENCY);
 		
 //		if(this.payIrCurveId != null) {
 		if(this.payIrCurveId != null && this.payCurrency.equals(DEF_CURRENCY)) {
@@ -771,7 +773,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		}
 		else setPayIrCurveHis();
 		
-		log.info("pay dis rate : {},{},{}", scenNum,  payDiscountSpread, payMatTermIntRate);
+//		log.info("pay dis rate : {},{},{}", scenNum,  payDiscountSpread, payMatTermIntRate);
 		dcntPayMatTerm = payMatTerm;		 
 		dcntPayMatTermIntRate = payMatTermIntRate;
 	}
@@ -797,7 +799,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			
 			dcntPayMatTerm = payMatTerm;		 
 			dcntPayMatTermIntRate = payMatTermIntRate;
-			log.info("foreign Pay curve : {},{},{}", payMatTermIntRate, scenarioForeignCurveHis.get("M0012"));
+			log.info("foreign Pay curve : {},{},{}",  scenarioForeignCurveHis.get("M0012"),payMatTermIntRate);
 		}	
 	}
 	
@@ -824,7 +826,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		
 	}
 
-	
+	// TODO : ì™¸í™” í†µí™”ì¸ ê²½ìš° ì‹œë‚˜ë¦¬ì˜¤ ì„¤ì • ìˆ˜ì • 
 	private void setRecIrCurveHis() {		
 		
 		//this.toRealScale = TO_REAL_INT_RATE;		
@@ -843,7 +845,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		//log.info("REC HIS: {}, {}, {}", this.irCurveHis, recMatTerm, recMatTermIntRate);
 	}
 	
-	
+	// TODO : ì™¸í™” í†µí™”ì¸ ê²½ìš° ì‹œë‚˜ë¦¬ì˜¤ ì„¤ì • ìˆ˜ì • 
 	private void setPayIrCurveHis() {
 		
 		//this.toRealScale = TO_REAL_INT_RATE;
@@ -852,6 +854,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		if(this.irCurveHis.get(this.payIrCurveId) != null && !this.irCurveHis.get(this.payIrCurveId).isEmpty()) {
 			payMatTerm = this.irCurveHis.get(this.payIrCurveId).keySet().stream().toArray(String[]::new);		 
 			payMatTermIntRate = addSpread(this.irCurveHis.get(this.payIrCurveId).values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), this.payDiscountSpread);
+			
 		}		
 		else if(this.irCurveHis.get(this.payIrCurveId) == null) log.error("PAY IR CURVE ID is NULL in {}", this.expoId);
 		else if(this.irCurveHis.get(this.payIrCurveId).isEmpty()) log.error("PAY IR CURVE DATA is Empty in {}", this.expoId);
@@ -859,7 +862,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		
 		dcntPayMatTerm = payMatTerm;		 
 		dcntPayMatTermIntRate = payMatTermIntRate;
-		//log.info("REC HIS: {}, {}, {}", this.irCurveHis, recMatTerm, recMatTermIntRate);
+		log.info("PAY HIS: {}, {}, {}", this.irCurveHis, payMatTerm, payMatTermIntRate);
 	}
 	
 	
@@ -1004,7 +1007,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 	}	
 	
 	/**
-	 * Macaulay Duration¿¡¼­ ¼öÁ¤µà·¹ÀÌ¼ÇÀ¸·Î ³Ñ¾î°¡´Â °úÁ¤¿¡¼­ paymentTermÀÌ µé¾î°¡´Â°¡ ¾Æ´Ñ°¡...compoundPeriodÀÌ¾î¾ßÇÏ³ª?...
+	 * Macaulay Durationï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½à·¹ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ paymentTermï¿½ï¿½ ï¿½ï¿½î°¡ï¿½Â°ï¿½ ï¿½Æ´Ñ°ï¿½...compoundPeriodï¿½Ì¾ï¿½ï¿½ï¿½Ï³ï¿½?...
 	 */
 	protected double getModifiedDuration(Integer legType) throws Exception {
 		
@@ -1067,7 +1070,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 	}
     
 	/**
-	 * NET_LEG´Â CFÀÇ ¹æÇâ¼ºÀÌ ´ÜÁ¶/Áõ°¡°¡ ¾Æ´Ï¹Ç·Î, ¼ö·Å¿¡ ºó¹øÇÏ°Ô ½ÇÆĞÇÏ¿© [REC-PAY]·Î ÀÇÁ¦Ã³¸®ÇÏÇÔ
+	 * NET_LEGï¿½ï¿½ CFï¿½ï¿½ ï¿½ï¿½ï¿½â¼ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¹Ç·ï¿½, ï¿½ï¿½ï¿½Å¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ [REC-PAY]ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */    
     protected double getYieldToMaturity(Integer legType) throws Exception {
     	

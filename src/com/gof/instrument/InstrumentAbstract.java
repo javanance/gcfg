@@ -54,6 +54,7 @@ public abstract class InstrumentAbstract implements Instrument {
 
 	public List<KicsAssetResult> getValuation() throws Exception {return getValuation(TO_ORIGINAL_CURRENCY);}	
 	
+	// 오버로딩 : 같은 메서드에 다른 매개변수 
 	protected void setInstrumentEntities(KicsAssetSecr entity) throws Exception {}
 	
 	protected void setInstrumentEntities(KicsAssetFide entity) throws Exception {}
@@ -69,7 +70,17 @@ public abstract class InstrumentAbstract implements Instrument {
 		return cloneEntity;				
 	}
 	
-	
+	/**
+	 * 자산 인스트루먼트의 속성에 따라 연산에 필요한 날짜 배열을 미리 생성.
+	 *
+	 * @param issueDt 발행일
+	 * @param matDt 만기일
+	 * @param pmtTerm 지급주기
+	 * @param pmtTermType 지급주기 유형
+	 * @param direction 지급 방향 (true: 선지급(발행일부터 +1*지급주기 ), false: 후지급(만기일부터 -1* 지급주기 ))
+	 * @return 연산에 필요한 날짜 배열
+	 * @throws IllegalArgumentException 발행일이 만기일보다 늦을 경우
+	 */
 	protected List<LocalDate> generateCashflowArray(LocalDate issueDt, LocalDate matDt, int pmtTerm, char pmtTermType, boolean direction) throws Exception {		
 
 		List<LocalDate> cfDate = new ArrayList<LocalDate>();
@@ -80,7 +91,7 @@ public abstract class InstrumentAbstract implements Instrument {
 	    }
 	    if(pmtTerm <= 0) pmtTerm = Integer.MAX_VALUE;
 	    
-	    if(direction) {		    
+	    if(direction) {		// 이자지급방식: 선지급방식 (발행일로부터 이자를 계산함)     
 	    	int cnt =1;
 	    	LocalDate thisDate = issueDt;
 	    	cfDate.add(thisDate);
@@ -113,7 +124,7 @@ public abstract class InstrumentAbstract implements Instrument {
 			    	return cfDate;			    			    	
 		    }	    			    
 	    }
-	    else {
+	    else { // 이자지급방식: 후지급방식 (만기일로부터 거꾸로 이자를 계산함)     
 	    	int cnt =1;
 	    	LocalDate thisDate = matDt;
 	    	cfDate.add(thisDate);
@@ -146,7 +157,18 @@ public abstract class InstrumentAbstract implements Instrument {
 	    }	    
 	}
 	
-	
+	/**
+	 * 자산 인스트루먼트의 속성에 따라 연산에 필요한 날짜 배열을 미리 생성. firstCouponDate 로부터 만기까지.
+	 * 
+	 * @param issueDt 발행일
+	 * @param matDt 만기일
+	 * @param firstCouponDate **첫번째 쿠폰 날짜**
+	 * @param pmtTerm 지급 주기
+	 * @param pmtTermType 지급 주기 유형
+	 * @param direction 방향 (기본적으로 true 발행일부터 순차적으로 처리하나 firstCouponDate의 날짜가 유효하지 않은 경우 direction 설정에 따라 산출함. )
+	 * @return 날짜 배열
+	 * @throws Exception 예외 발생 시
+	 */
 	protected List<LocalDate> generateCashflowArray(LocalDate issueDt, LocalDate matDt, LocalDate firstCouponDate, int pmtTerm, char pmtTermType, boolean direction) throws Exception {		
 		
 		List<LocalDate> cfDate = new ArrayList<LocalDate>();
@@ -155,9 +177,12 @@ public abstract class InstrumentAbstract implements Instrument {
 	    	log.error("IssueDate cannot be larger than MaturityDate: [{}]", this.getExpoId());
 	    	return null;
 	    }
+	    // firstCouponDate 데이터 오류 (발행일 이전에 쿠폰발행, 만기 이후에 쿠폰발행) : firstCouponDate를 무시하고 현금흐름 날짜 배열 생성 (default) 
 	    if(firstCouponDate == null || issueDt.isAfter(firstCouponDate) || matDt.isBefore(firstCouponDate)) {
 	    	return generateCashflowArray(issueDt, matDt, pmtTerm, pmtTermType, direction);
-	    }	    
+	    }
+	    
+	    // 지급기간이 0 이하인 경우 (데이터 오류) default : 1200 
 	    if(pmtTerm <= 0) pmtTerm = 1200;	    	    	
 	    	
     	cfDate.add(issueDt);
@@ -188,7 +213,20 @@ public abstract class InstrumentAbstract implements Instrument {
 	    }	    
 	}
 	
-	
+	/**
+	 * 만기별 할인율 배열 기반으로 현금흐름의 현재가치 산출.
+	 *
+	 * @param matTerm 만기 배열 []
+	 * @param dcntRate 할인율 배열 []
+	 * @param baseDate 기준일자 
+	 * @param dates 현금흐름이 발생하는 날짜 배열 []
+	 * @param cashflows 현금흐름 배열 []
+	 * @param dcntCmpdMtd 할인율 복리계산 방식
+	 * @param dcntCmpdPeriod 할인율 복리계산 기간
+	 * @param dcntCmpdPeriodType 할인율 복리계산 기간 단위
+	 * @param dayCountBasis 일수 계산 방식
+	 * @return 현재가치
+	 */
 	protected double getPresentValue(String[] matTerm, double[] dcntRate, LocalDate baseDate, LocalDate[] dates, double[] cashflows, char dcntCmpdMtd, int dcntCmpdPeriod, char dcntCmpdPeriodType, int dayCountBasis) throws Exception {
 		
 		double pv = 0.0;
@@ -209,7 +247,19 @@ public abstract class InstrumentAbstract implements Instrument {
 		return pv;
     }    
 	
-	
+	/**
+	 * ytm 기반으로 현금흐름의 현재가치 산출.
+	 *
+	 * @param ytm 할인율(YTM) - 할인에 사용할 Yield to Maturity 값
+	 * @param baseDate 기준일자 
+	 * @param dates 현금흐름이 발생하는 날짜 배열 []
+	 * @param cashflows 현금흐름 배열 []
+	 * @param dcntCmpdMtd 할인율 복리계산 방식
+	 * @param dcntCmpdPeriod 할인율 복리계산 기간
+	 * @param dcntCmpdPeriodType 할인율 복리계산 기간 단위
+	 * @param dayCountBasis 일수 계산 방식
+	 * @return 현재가치
+	 */
     protected double getPresentValue(double ytm, LocalDate baseDate, LocalDate[] dates, double[] cashflows, char dcntCmpdMtd, int dcntCmpdPeriod, char dcntCmpdPeriodType, int dayCountBasis) throws Exception {
     	
     	double pvYtm = 0.0;
@@ -399,7 +449,9 @@ public abstract class InstrumentAbstract implements Instrument {
 //    	}	    			
 //    }    
     
-    
+    /**
+     * add 내재스프레드 
+     * */
 	protected double[] addSpread(double[] dcntRate, double spread) {    	
     	
     	double[] newDcntRate = new double[dcntRate.length];    	

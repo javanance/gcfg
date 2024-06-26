@@ -25,7 +25,7 @@ public class HibernateUtil {
 		
 		settings.put(Environment.DRIVER,  "org.h2.Driver");
 		settings.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
-		settings.put(Environment.URL,     "jdbc:h2:tcp://localhost/d:/H2/data/ASSET");			
+		settings.put(Environment.URL,     "jdbc:h2:tcp://localhost/~/H2DB/db/ASSET");			
 		settings.put(Environment.USER,    "HKL");	
 		settings.put(Environment.PASS,    "test");	
 		
