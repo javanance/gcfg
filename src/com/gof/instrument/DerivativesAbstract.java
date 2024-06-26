@@ -712,7 +712,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		
 		if(scenarioCurveHis != null && !scenarioCurveHis.isEmpty()) {			
 			this.setRecScenarioCurveHis();
-			this.setPayScenarioCurveHis();
+			this.setPayScenarioCurveHis(); // 여기에서 EUR 못채움 
 		}
 		else {
 			this.setRecIrCurveHis();
