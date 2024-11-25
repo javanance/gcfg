@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -286,96 +287,123 @@ public class JobProcessor {
 	}
 	
 	private static void applyIrScenario(KicsAsset inst, Instrument fiInst, int scenNum, Integer instCode) {
-	    boolean isFxScenApply = EBoolean.valueOf(irScenarioFxYn).isTrueFalse();
-	    boolean isBondInst = instCode.intValue() >= Instrument.INST_BOND_ZCB && instCode.intValue() <= Instrument.INST_BOND_NON;
-	    boolean isDefaultCurrency = GeneralUtil.objectToPrimitive(inst.getCrnyCd(), Instrument.DEF_CURRENCY).equals(Instrument.DEF_CURRENCY);
-
-
-	    // 해당 인스트루먼트에 필요한 커브 설정.
-	    // 1.  외화 & 채권 =>irCurveFromHisFxMap
-	    if (isFxScenApply && isBondInst && !isDefaultCurrency) {
-	        setIrCurveFromHisFxMap(inst, fiInst, scenNum);
-	    	}
-    	else {
-    	// 2. 원화 => IrCurveFromHisMap
-			setIrCurveFromHisMap(inst, fiInst, scenNum);
-		}
-	    	    
-         if (isDerivativesScenApply(instCode)) { // 파생상품인 경우 포지션에 따른 할인율 설정을 여기에서 추가로 함.  
-        	setIrCurveFromHisFxMapByPosition(inst, fiInst, scenNum);
-         }
-	}
-
-	private static boolean isDerivativesScenApply(Integer instCode) {
-	   return EBoolean.valueOf(irScenarioFxYn).isTrueFalse() 
-	          && (instCode == Instrument.INST_FIDE_CCSWAP || instCode == Instrument.INST_FIDE_FXSWAP);
-	  }
-	
-	private static void setIrCurveFromHisMap(KicsAsset inst, Instrument fiInst, int scenNum) {
-	    Map<String, IrCurveHis> curveHis = scenarioCurveHisMap.get(scenNum);
-
-	    try { // KDSP1000_1 : default인 경우만 설정함.
-	        fiInst.setIrScenarioCurveEntities(scenNum, curveHis, impliedSpreadMap.get(inst.getExpoId()));
-	    } catch (Exception e) {
-	        e.printStackTrace(); // 예외 처리 로직 추가
-	        log.error("Error setting IR Scenario Curve Entities for {}: {}", inst.getExpoId(), e);
-	    }
-	}
-
-	private static void setIrCurveFromHisFxMap(KicsAsset inst, Instrument fiInst, int scenNum) {
-	    String crnyCd = inst.getCrnyCd();
-
-	    // scenarioCurveHisFxMap에서 해당 통화코드 확인
-	    boolean crnyYn = false;
-	    for (Map.Entry<String, Map<String, IrCurveHis>> scenCurveHisFx : scenarioCurveHisFxMap.get(scenNum).entrySet()) {
-	        if (crnyCd.equals(scenCurveHisFx.getKey()) && !scenCurveHisFx.getValue().isEmpty()) {
-	            crnyYn = true; // scenCurveHisFx에 해당 통화가 있으면 curveHis 에 채우기 
-	            Map<String, IrCurveHis> curveHis = scenCurveHisFx.getValue();
-	            try { // 할인율에 내재스프레드 반영 
-					fiInst.setIrScenarioCurveEntities(scenNum, curveHis, impliedSpreadMap.get(inst.getExpoId()));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	            break;
-	        }
-	    }
-
-	    if (!crnyYn) {
-	        // scenCurveHisFx에 해당 통화가 없는 경우, scenarioCurveHisFxMap에서 curveHis 가져오기 
-	        Map<String, IrCurveHis> curveHis = scenarioCurveHisFxMap.get(scenNum).containsKey(irScenarioFxDefault)
-	                && !scenarioCurveHisFxMap.get(scenNum).get(irScenarioFxDefault).isEmpty()
-	                ? scenarioCurveHisFxMap.get(scenNum).get(irScenarioFxDefault)
-	                : scenarioCurveHisMap.get(scenNum);
-
-	        try { // 할인율에 내재 스프레드 반영 
-				fiInst.setIrScenarioCurveEntities(scenNum, curveHis, impliedSpreadMap.get(inst.getExpoId()));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    }
-	}
-
-	private static void setIrCurveFromHisFxMapByPosition(KicsAsset inst, Instrument fiInst, int scenNum) {
-		DerivativesAbstract ddd = (DerivativesAbstract) fiInst;
-		log.info("payCurrency :{}, recCurrency:{}",ddd.getPayCurrency(), ddd.getRecCurrency()) ;
 		
-	    for (Map.Entry<String, Map<String, IrCurveHis>> entry : scenarioCurveHisFxMap.get(scenNum).entrySet()) {
-	    	log.info("Processing FX Curve: {}", entry.getKey());
-	    	
-	        if (!entry.getKey().equals("KRW") && (entry.getKey().equals(ddd.getPayCurrency()) || entry.getKey().equals(ddd.getRecCurrency()))) {
-	            log.info("Processing FX Curve: {}", entry.getKey());
-	            try {
-					fiInst.setIrScenarioFxCurveEntities(scenNum, entry.getValue(), 0.0); 
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					log.error("Error setting IR Scenario FX Curve Entities for {}: {}", inst.getExpoId(), e);
-				}
-	            break;
-	        }
-	    }
+		//  24.11.22 sy add 시나리오, 통화커브별 금리시나리오(케이스에 상관없이 통화별 커브를 채워두기 )
+		setIrCurveFromScenFxHisMap (inst, fiInst, scenNum);
+		
+//	    boolean isFxScenApply = EBoolean.valueOf(irScenarioFxYn).isTrueFalse();
+//	    boolean isBondInst = instCode.intValue() >= Instrument.INST_BOND_ZCB && instCode.intValue() <= Instrument.INST_BOND_NON;
+//	    boolean isDefaultCurrency = GeneralUtil.objectToPrimitive(inst.getCrnyCd(), Instrument.DEF_CURRENCY).equals(Instrument.DEF_CURRENCY);
+//
+//
+//	    // 해당 인스트루먼트에 필요한 커브 설정.
+//	    // 1.  외화 & 채권 =>irCurveFromHisFxMap
+//	    if (isFxScenApply && isBondInst && !isDefaultCurrency) {
+//	        setIrCurveFromHisFxMap(inst, fiInst, scenNum);
+//	    	}
+//    	else {
+//    	// 2. 원화 => IrCurveFromHisMap
+//			setIrCurveFromHisMap(inst, fiInst, scenNum);
+//		}
+//	    	    
+//         if (isDerivativesScenApply(instCode)) { // 파생상품인 경우 포지션에 따른 할인율 설정을 여기에서 추가로 함.  
+//        	setIrCurveFromHisFxMapByPosition(inst, fiInst, scenNum);
+//         }
 	}
+
+//	private static boolean isDerivativesScenApply(Integer instCode) {
+//	   return EBoolean.valueOf(irScenarioFxYn).isTrueFalse() 
+//	          && (instCode == Instrument.INST_FIDE_CCSWAP || instCode == Instrument.INST_FIDE_FXSWAP);
+//	  }
+
+	//  24.11.22 sy add 시나리오, 통화커브별 금리시나리오 
+	private static void setIrCurveFromScenFxHisMap (KicsAsset inst, Instrument fiInst, int scenNum) {
+		
+		Set<String> crnySet = inst.getCrnySet();
+	    
+		for (String crnyCd : crnySet) {
+			
+			Map<String, IrCurveHis> curveHis = scenarioCurveHisFxMap.getOrDefault(scenNum, Collections.emptyMap()).get(crnyCd);
+			Map<String, IrCurveHis> curveHisAply = (curveHis == null || curveHis.isEmpty()) 
+				    ? scenarioCurveHisFxMap.getOrDefault(scenNum, Collections.emptyMap()).get(Instrument.DEF_CURRENCY)
+				    : curveHis;
+			
+			if (curveHisAply != null && !curveHisAply.isEmpty()) {
+			    try {
+			        // 커브를 설정
+			        fiInst.setIrScenarioEntities(scenNum, crnyCd, curveHisAply, impliedSpreadMap.get(inst.getExpoId()));
+			    } catch (Exception e) {
+			        e.printStackTrace(); 
+			    }
+			}	
+		}
+	}
+	
+//	private static void setIrCurveFromHisMap(KicsAsset inst, Instrument fiInst, int scenNum) {
+//	    Map<String, IrCurveHis> curveHis = scenarioCurveHisMap.get(scenNum);
+//
+//	    try { // KDSP1000_1 : default인 경우만 설정함.
+//	        fiInst.setIrScenarioCurveEntities(scenNum, curveHis, impliedSpreadMap.get(inst.getExpoId()));
+//	    } catch (Exception e) {
+//	        e.printStackTrace(); // 예외 처리 로직 추가
+//	        log.error("Error setting IR Scenario Curve Entities for {}: {}", inst.getExpoId(), e);
+//	    }
+//	}
+
+//	private static void setIrCurveFromHisFxMap(KicsAsset inst, Instrument fiInst, int scenNum) {
+//	    String crnyCd = inst.getCrnyCd();
+//
+//	    // scenarioCurveHisFxMap에서 해당 통화코드 확인
+//	    boolean crnyYn = false;
+//	    for (Map.Entry<String, Map<String, IrCurveHis>> scenCurveHisFx : scenarioCurveHisFxMap.get(scenNum).entrySet()) {
+//	        if (crnyCd.equals(scenCurveHisFx.getKey()) && !scenCurveHisFx.getValue().isEmpty()) {
+//	            crnyYn = true; // scenCurveHisFx에 해당 통화가 있으면 curveHis 에 채우기 
+//	            Map<String, IrCurveHis> curveHis = scenCurveHisFx.getValue();
+//	            try { // 할인율에 내재스프레드 반영 
+//					fiInst.setIrScenarioCurveEntities(scenNum, curveHis, impliedSpreadMap.get(inst.getExpoId()));
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//	            break;
+//	        }
+//	    }
+//
+//	    if (!crnyYn) {
+//	        // scenCurveHisFx에 해당 통화가 없는 경우, scenarioCurveHisFxMap에서 curveHis 가져오기 
+//	        Map<String, IrCurveHis> curveHis = scenarioCurveHisFxMap.get(scenNum).containsKey(irScenarioFxDefault)
+//	                && !scenarioCurveHisFxMap.get(scenNum).get(irScenarioFxDefault).isEmpty()
+//	                ? scenarioCurveHisFxMap.get(scenNum).get(irScenarioFxDefault)
+//	                : scenarioCurveHisMap.get(scenNum);
+//
+//	        try { // 할인율에 내재 스프레드 반영 
+//				fiInst.setIrScenarioCurveEntities(scenNum, curveHis, impliedSpreadMap.get(inst.getExpoId()));
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//	    }
+//	}
+
+//	private static void setIrCurveFromHisFxMapByPosition(KicsAsset inst, Instrument fiInst, int scenNum) {
+//		DerivativesAbstract ddd = (DerivativesAbstract) fiInst;
+//		log.info("payCurrency :{}, recCurrency:{}",ddd.getPayCurrency(), ddd.getRecCurrency()) ;
+//		
+//	    for (Map.Entry<String, Map<String, IrCurveHis>> entry : scenarioCurveHisFxMap.get(scenNum).entrySet()) {
+//	    	log.info("Processing FX Curve: {}", entry.getKey());
+//	    	
+//	        if (!entry.getKey().equals("KRW") && (entry.getKey().equals(ddd.getPayCurrency()) || entry.getKey().equals(ddd.getRecCurrency()))) {
+//	            log.info("Processing FX Curve: {}", entry.getKey());
+//	            try {
+//					fiInst.setIrScenarioFxCurveEntities(scenNum, entry.getValue(), 0.0); 
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//					log.error("Error setting IR Scenario FX Curve Entities for {}: {}", inst.getExpoId(), e);
+//				}
+//	            break;
+//	        }
+//	    }
+//	}
 
 }

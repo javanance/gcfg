@@ -122,17 +122,24 @@ public abstract class SecuritiesAbstract extends InstrumentAbstract {
 		super();		
 	}	
 	
+	// 24.11.22 sy add 시나리오, 통화커브별 금리시나리오 
 	@Override
-	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
-		
-	}
-	
-	@Override
-	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception {
-	
+	public void setIrScenarioEntities(Integer scenNum, String crnyCd, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
 		this.scenNum          = scenNum;
-		this.scenarioCurveHis = scenarioCurveHis;		
+		this.scenarioCurveHis = scenarioCurveHis;	
 	}
+	
+//	@Override
+//	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
+//		
+//	}
+//	
+//	@Override
+//	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception {
+//	
+//		this.scenNum          = scenNum;
+//		this.scenarioCurveHis = scenarioCurveHis;		
+//	}
 
 	
 	public void setFxScenarioEntities(Integer scenNum, String typCd, Double val) throws Exception {

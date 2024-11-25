@@ -196,21 +196,21 @@ public abstract class DerivativesAbstractOld extends InstrumentAbstract {
 		this.fxVal            = null;
 	}	
 
-	@Override
-	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) {
-		
-		this.scenNum          = scenNum;
-		this.scenarioCurveHis = scenarioCurveHis;
-		this.impliedSpread    = GeneralUtil.objectToPrimitive(spread);		
-		this.setIrCurve();				
-		//log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
-	}
-	
-	
-	@Override
-	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
-		scenarioForeignCurveHis = scenarioCurveHis;
-	}
+//	@Override
+//	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) {
+//		
+//		this.scenNum          = scenNum;
+//		this.scenarioCurveHis = scenarioCurveHis;
+//		this.impliedSpread    = GeneralUtil.objectToPrimitive(spread);		
+//		this.setIrCurve();				
+//		//log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
+//	}
+//	
+//	
+//	@Override
+//	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
+//		scenarioForeignCurveHis = scenarioCurveHis;
+//	}
 
 	public void setFxScenarioEntities(Integer scenNum, String typCd, Double val) {
 		
@@ -716,8 +716,8 @@ public abstract class DerivativesAbstractOld extends InstrumentAbstract {
 
 
 	/**
-	 * TODO: ¿¹Àü¿¡ ÀÌ·¸°Ô ÄÚµùÇÑ ÀÌÀ¯¸¦ ÆÄ¾ÇÇØ¾ß ÇÑ´Ù. ¹°·Ð ¼öÃë/Áö±Þ ·¹±×º°·Î ´Ù¸£±â´Â ÇÒ°Å´Ù. ´Ü, ¿ÜÈ­ÀÚ»êÀº ¾Æ·¡ÀÇ ÃÖÃÊ ifÁ¶°Ç¿¡¼­ ¹þ¾î³­´Ù.(DEF_CURRENCY °¡ ¾Æ´Ô)
-	 * isRecIrCalibrationÀº FALSE(0)»óÅÂ·Î ÃÖÃÊ¿¡ ÃÊ±âÈ­°¡ µÈ´Ù. 
+	 * TODO: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¾ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×ºï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°Å´ï¿½. ï¿½ï¿½, ï¿½ï¿½È­ï¿½Ú»ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ifï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î³­ï¿½ï¿½.(DEF_CURRENCY ï¿½ï¿½ ï¿½Æ´ï¿½)
+	 * isRecIrCalibrationï¿½ï¿½ FALSE(0)ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½È´ï¿½. 
 	 */
 	private void setRecScenarioCurveHis() {
 		
@@ -930,7 +930,7 @@ public abstract class DerivativesAbstractOld extends InstrumentAbstract {
 	}	
 	
 	/**
-	 * Macaulay Duration¿¡¼­ ¼öÁ¤µà·¹ÀÌ¼ÇÀ¸·Î ³Ñ¾î°¡´Â °úÁ¤¿¡¼­ paymentTermÀÌ µé¾î°¡´Â°¡ ¾Æ´Ñ°¡...compoundPeriodÀÌ¾î¾ßÇÏ³ª?...
+	 * Macaulay Durationï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½à·¹ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ paymentTermï¿½ï¿½ ï¿½ï¿½î°¡ï¿½Â°ï¿½ ï¿½Æ´Ñ°ï¿½...compoundPeriodï¿½Ì¾ï¿½ï¿½ï¿½Ï³ï¿½?...
 	 */
 	protected double getModifiedDuration(Integer legType) throws Exception {
 		
@@ -993,7 +993,7 @@ public abstract class DerivativesAbstractOld extends InstrumentAbstract {
 	}
     
 	/**
-	 * NET_LEG´Â CFÀÇ ¹æÇâ¼ºÀÌ ´ÜÁ¶/Áõ°¡°¡ ¾Æ´Ï¹Ç·Î, ¼ö·Å¿¡ ºó¹øÇÏ°Ô ½ÇÆÐÇÏ¿© [REC-PAY]·Î ÀÇÁ¦Ã³¸®ÇÏÇÔ
+	 * NET_LEGï¿½ï¿½ CFï¿½ï¿½ ï¿½ï¿½ï¿½â¼ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¹Ç·ï¿½, ï¿½ï¿½ï¿½Å¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ [REC-PAY]ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */    
     protected double getYieldToMaturity(Integer legType) throws Exception {
     	

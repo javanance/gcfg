@@ -30,7 +30,7 @@ public class LoanBulletRepay extends LoanAbstract {
 	}
 	
 	/**
-	 * TODO: this.dcntCmpdPeriod     = this.paymentTerm;  --> 3°³¿ùÀÌÇ¥Ã¤ÀÇ °æ¿ì 12°³¿ù·Î ÇÒÀÎÇÑ°æ¿ì¿Í ºñ±³ÇÒ ¶§ adjMaturityDate¿¡µµ ¿µÇâÀ» ¹ÌÄ¥ ¼ö ÀÖÀ½(durationÂ÷ÀÌ)
+	 * TODO: this.dcntCmpdPeriod     = this.paymentTerm;  --> 3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¥Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ 12ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ adjMaturityDateï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(durationï¿½ï¿½ï¿½ï¿½)
 	 */
 	protected void setAttributes() throws Exception {			
 		
@@ -121,9 +121,15 @@ public class LoanBulletRepay extends LoanAbstract {
     	//for(int i=0; i<payoffDate.length; i++) log.info("{}, {}, {}", i, this.payoffDate[i], this.payoffAmount[i]);
     }
 
-    @Override
-	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
+//    @Override
+//	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
+//		
+//	}
+	// 24.11.22 sy add ì‹œë‚˜ë¦¬ì˜¤, í†µí™”ì»¤ë¸Œë³„ ê¸ˆë¦¬ì‹œë‚˜ë¦¬ì˜¤ 
+	@Override
+	public void setIrScenarioEntities(Integer scenNum, String crnyCd, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
 		
 	}
+		
 }
 

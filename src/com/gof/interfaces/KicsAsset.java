@@ -1,5 +1,6 @@
 package com.gof.interfaces;
 
+import java.util.Set;
 
 public interface KicsAsset {	
 	
@@ -16,6 +17,8 @@ public interface KicsAsset {
 	public String getIsinCd();
 	
 	public String getCrnyCd();
+	
+	public Set<String> getCrnySet();
 	
 	public void setIsRealNumber(Boolean bool);
 	

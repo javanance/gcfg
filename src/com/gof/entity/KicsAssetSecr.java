@@ -1,7 +1,10 @@
 package com.gof.entity;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -137,4 +140,13 @@ public class KicsAssetSecr implements Serializable, EntityIdIdentifier, KicsAsse
     
 	public KicsAssetSecr() {}
 
+    @Override
+    public Set<String> getCrnySet() {
+        if (this.crnyCd == null || this.crnyCd.isEmpty()) {
+            return Collections.emptySet();
+        }
+        Set<String> crnySet = new HashSet<>();
+        crnySet.add(this.crnyCd); 
+        return crnySet;	
+    }
 }

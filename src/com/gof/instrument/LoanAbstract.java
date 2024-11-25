@@ -195,10 +195,9 @@ public abstract class LoanAbstract extends InstrumentAbstract {
 //			log.warn("IrCurveHis Data is not found at {}!!!", baseDate);
 //		}		
 	}	
-	
-	
+
     @Override
-	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception {
+	public void setIrScenarioEntities(Integer scenNum,String crnyCd, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception {
 		
 		this.scenNum          = scenNum;
 		this.scenarioCurveHis = scenarioCurveHis;
@@ -206,6 +205,16 @@ public abstract class LoanAbstract extends InstrumentAbstract {
 		this.setIrCurve();				
 		//log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}, {}", this.scenNum, this.scenarioCurveHis.size());
 	}
+	
+//    @Override
+//	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception {
+//		
+//		this.scenNum          = scenNum;
+//		this.scenarioCurveHis = scenarioCurveHis;
+//		this.impSpread        = GeneralUtil.objectToPrimitive(spread);		
+//		this.setIrCurve();				
+//		//log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}, {}", this.scenNum, this.scenarioCurveHis.size());
+//	}
 	
 	
 	private void setIrCurve() throws Exception {
@@ -242,11 +251,11 @@ public abstract class LoanAbstract extends InstrumentAbstract {
 	}	
 	
 	/**TODO
-	 * this.currency.equals(DEFAULT_CURRENCY) --> ¿ø·¡´Â ¿øÈ­Ä¿ºê¸¦ »ìÆìº¸±â À§ÇÑ °ÍÀÌ¾úÀ¸¸ç.. ÆÄ»ýÀº Ä¶¸®ºê·¹ÀÌ¼ÇÀ» ÇÏ³ª¸¸ ÇØ¾ßÇÏ¹Ç·Î ±×·¸°Ô Çß´Ù...(ÇÏ³ª¸¸? ¿øÈ­¸¸?)
-	 * isIrCalibrationÀº FALSE(0)»óÅÂ·Î ÃÖÃÊ¿¡ ÃÊ±âÈ­°¡ µÈ´Ù. 
-	 * setScenarioCurveHis°¡ È£ÃâµÇ´Â °æ¿ì¸¸ implied spread¸¦ µµÃâÇÏ°í ±×¿Ü¿¡´Â °è»êÇÏÁö ¾Ê´Â´Ù. °á±¹ standardÀÏ¶§¸¸ ¾ÈÇÑ´Ù?
-	 * ¸®ÆÑÅä¸µÀÌ ÇÊ¿äÇÑ ¿µ¿ªÀÓ ´Ù¸¥ Å¬·¡½º¿¡¼­ setter·Î Ã³¸®??? ½ºÇÁ·¹µå Æ÷ÇÔ...
-	 * setIrCurveHisÀÇ matTermIntRate´Â ½ºÇÁ·¹µå¸¦ Ã³¸®ÇÒ ÇÊ¿ä°¡ ÀÖ´Ù? ¾ø´Ù? (ÃÊ±â°ªÀº 0.0ÀÌ¹Ç·Î °ª¿¡´Â ¹®Á¦´Â ¾ø¾î º¸ÀÓ)
+	 * this.currency.equals(DEFAULT_CURRENCY) --> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­Ä¿ï¿½ê¸¦ ï¿½ï¿½ï¿½ìº¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½Ä»ï¿½ï¿½ï¿½ Ä¶ï¿½ï¿½ï¿½ê·¹ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ß´ï¿½...(ï¿½Ï³ï¿½ï¿½ï¿½? ï¿½ï¿½È­ï¿½ï¿½?)
+	 * isIrCalibrationï¿½ï¿½ FALSE(0)ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½È´ï¿½. 
+	 * setScenarioCurveHisï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ì¸¸ implied spreadï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½×¿Ü¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½. ï¿½á±¹ standardï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½?
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ä¸µï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ setterï¿½ï¿½ Ã³ï¿½ï¿½??? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
+	 * setIrCurveHisï¿½ï¿½ matTermIntRateï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¸¦ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ä°¡ ï¿½Ö´ï¿½? ï¿½ï¿½ï¿½ï¿½? (ï¿½Ê±â°ªï¿½ï¿½ 0.0ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 	 */	
 	private void setScenarioCurveHis() throws Exception {		
 		
@@ -332,7 +341,7 @@ public abstract class LoanAbstract extends InstrumentAbstract {
 	}	
 	
 	/**
-	 * Macaulay Duration¿¡¼­ ¼öÁ¤µà·¹ÀÌ¼ÇÀ¸·Î ³Ñ¾î°¡´Â °úÁ¤¿¡¼­ paymentTermÀÌ µé¾î°¡´Â°¡ ¾Æ´Ñ°¡...compoundPeriodÀÌ¾î¾ßÇÏ³ª?...
+	 * Macaulay Durationï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½à·¹ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ paymentTermï¿½ï¿½ ï¿½ï¿½î°¡ï¿½Â°ï¿½ ï¿½Æ´Ñ°ï¿½...compoundPeriodï¿½Ì¾ï¿½ï¿½ï¿½Ï³ï¿½?...
 	 */
 	protected double getModifiedDuration() throws Exception {
 		//return getMacaulayDuration() / (1.0 + getYieldToMaturity());
@@ -370,8 +379,8 @@ public abstract class LoanAbstract extends InstrumentAbstract {
     }
 
     /**
-     * TODO: priceÀÇ currency¸¦ ¹Þ¾Æ¼­...getPresentValue¿¡ ¸ÂÃß¾î µ¿±âÈ­¸¦ ÇÏ´Â ¹æ¹ýÀÌ ÇÊ¿äÇÏ´Ù.
-     * È¤Àº pvPositiveÀÇ °ªÀ» ¹Ù·Î È£ÃâÇÏ´Â ¸Þ¼­µå¸¦ ¼³°èÇÏ´Â °Íµµ ¹æ¹ýÀÌ´Ù. °á±¹ ÇÔ¼ö¸¦ È£ÃâÇÏ´Â ¹æ¹ýÀ» Ã£¾Æ¾ß ÇÒ °ÍÀÌ´Ù. 
+     * TODO: priceï¿½ï¿½ currencyï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½...getPresentValueï¿½ï¿½ ï¿½ï¿½ï¿½ß¾ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´ï¿½.
+     * È¤ï¿½ï¿½ pvPositiveï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½. ï¿½á±¹ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æ¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½. 
      */
     private double getYieldToMaturity(double targetBsAmt, double initGuess) throws Exception {
     	
@@ -451,7 +460,7 @@ public abstract class LoanAbstract extends InstrumentAbstract {
     }   
 		
     /**
-     * this.result.setValue(Math.floor(this.interestPayoffAmount[i] * fxRatio)) -> floor Á¦¿Ü °ËÅä ÇÊ¿ä (1¿ø¾¿ ºÎÁ·ÇØÁö´Â °æ¿ì Á¸Àç)
+     * this.result.setValue(Math.floor(this.interestPayoffAmount[i] * fxRatio)) -> floor ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ (1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
      */	
 	public List<KicsAssetResult> getValuation(boolean currencyType) throws Exception {
 		
@@ -576,9 +585,10 @@ public abstract class LoanAbstract extends InstrumentAbstract {
 		return cflist;
 	}
 	
-	@Override
-	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
-		
-	}
+//	@Override
+//	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
+//		
+//	}
+	
 }
 	

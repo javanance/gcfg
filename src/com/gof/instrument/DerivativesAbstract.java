@@ -196,31 +196,46 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		this.fxVal            = null;
 	}	
 
-	/** TODO: 포지션별 커브를 가져와야 하는 경우 KRW (default currency가 아니면 설정을 못하고 있음.)수정 필요.
-	 * {@link DerivativesAbstract#setIrCurve()} */
-	@Override
-	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) {
-		
-		this.scenNum          = scenNum;
-		this.scenarioCurveHis = scenarioCurveHis;
-		this.impliedSpread    = GeneralUtil.objectToPrimitive(spread);		
-		this.setIrCurve();				
-		//log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
-	}
+//	/** TODO: 포지션별 커브를 가져와야 하는 경우 KRW (default currency가 아니면 설정을 못하고 있음.)수정 필요.
+//	 * {@link DerivativesAbstract#setIrCurve()} */
+//	@Override
+//	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) {
+//		
+//		this.scenNum          = scenNum;
+//		this.scenarioCurveHis = scenarioCurveHis;
+//		this.impliedSpread    = GeneralUtil.objectToPrimitive(spread);		
+//		this.setIrCurve();				
+//		//log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
+//	}
 	
 	
+//	@Override
+//	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
+//		scenarioForeignCurveHis = scenarioCurveHis;
+//		
+//		if(!recCurrency.equals("KRW")) {
+//			setScenarioFxCurveHis("REC");
+////			setIrFxCurveHis("REC");
+//		}
+//		if(!payCurrency.equals("KRW")) {
+//			setScenarioFxCurveHis("PAY");
+////			setIrFxCurveHis("PAY");
+//		}
+//	}
+	// 24.11.22 sy add 시나리오, 통화커브별 금리시나리오 
 	@Override
-	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
+	public void setIrScenarioEntities(Integer scenNum, String crnyCd, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
 		scenarioForeignCurveHis = scenarioCurveHis;
 		
-		if(!recCurrency.equals("KRW")) {
-			setScenarioFxCurveHis("REC");
-//			setIrFxCurveHis("REC");
-		}
-		if(!payCurrency.equals("KRW")) {
-			setScenarioFxCurveHis("PAY");
-//			setIrFxCurveHis("PAY");
-		}
+	    if (recCurrency.equals(crnyCd)) {
+	        setScenarioFxCurveHis("REC");
+	        log.info("IR Scenario REC Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
+	    }
+
+	    if (payCurrency.equals(crnyCd)) {
+	        setScenarioFxCurveHis("PAY");
+	        log.info("IR Scenario  PAY Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
+	    }
 	}
 
 	public void setFxScenarioEntities(Integer scenNum, String typCd, Double val) {
@@ -791,7 +806,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		
 			dcntRecMatTerm = recMatTerm;		 
 			dcntRecMatTermIntRate = recMatTermIntRate;
-			log.info("foreign rec curve : {},{},{}", recMatTermIntRate,  scenarioForeignCurveHis.get("M0012"));
+			log.info("foreign rec curve : {},{},{}", recCurrency, scenarioForeignCurveHis.get("M0012"),recMatTermIntRate);
 		}
 		else {
 			payMatTerm = scenarioForeignCurveHis.keySet().stream().toArray(String[]::new);			
@@ -799,32 +814,32 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			
 			dcntPayMatTerm = payMatTerm;		 
 			dcntPayMatTermIntRate = payMatTermIntRate;
-			log.info("foreign Pay curve : {},{},{}",  scenarioForeignCurveHis.get("M0012"),payMatTermIntRate);
+			log.info("foreign Pay curve : {},{},{}",  payCurrency, scenarioForeignCurveHis.get("M0012"),payMatTermIntRate);
 		}	
 	}
 	
-	private void setIrFxCurveHis(String legType) {		
-		this.toRealScale = this.isRealNumber ? 1.0 : TO_REAL_INT_RATE;
-		
-		if(legType.equals("REC")) {
-			
-			recMatTerm = this.irCurveHis.get(this.recIrCurveId).keySet().stream().toArray(String[]::new);		 
-			recMatTermIntRate = addSpread(this.irCurveHis.get(this.recIrCurveId).values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), 0.0);
-			
-			dcntRecMatTerm = recMatTerm;		 
-			dcntRecMatTermIntRate = recMatTermIntRate;		
-			log.info("foreign rec curve : {},{},{}", payMatTermIntRate);
-		}
-		else {
-			payMatTerm = this.irCurveHis.get(this.payIrCurveId).keySet().stream().toArray(String[]::new);		 
-			payMatTermIntRate = addSpread(this.irCurveHis.get(this.payIrCurveId).values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), 0.0);
-			
-			dcntPayMatTerm = payMatTerm;		 
-			dcntPayMatTermIntRate = payMatTermIntRate;
-			log.info("foreign Pay curve : {},{},{}", payMatTermIntRate);
-		}		
-		
-	}
+//	private void setIrFxCurveHis(String legType) {		
+//		this.toRealScale = this.isRealNumber ? 1.0 : TO_REAL_INT_RATE;
+//		
+//		if(legType.equals("REC")) {
+//			
+//			recMatTerm = this.irCurveHis.get(this.recIrCurveId).keySet().stream().toArray(String[]::new);		 
+//			recMatTermIntRate = addSpread(this.irCurveHis.get(this.recIrCurveId).values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), 0.0);
+//			
+//			dcntRecMatTerm = recMatTerm;		 
+//			dcntRecMatTermIntRate = recMatTermIntRate;		
+//			log.info("foreign rec curve : {},{},{}", payMatTermIntRate);
+//		}
+//		else {
+//			payMatTerm = this.irCurveHis.get(this.payIrCurveId).keySet().stream().toArray(String[]::new);		 
+//			payMatTermIntRate = addSpread(this.irCurveHis.get(this.payIrCurveId).values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), 0.0);
+//			
+//			dcntPayMatTerm = payMatTerm;		 
+//			dcntPayMatTermIntRate = payMatTermIntRate;
+//			log.info("foreign Pay curve : {},{},{}", payMatTermIntRate);
+//		}		
+//		
+//	}
 
 	// TODO : 외화 통화인 경우 시나리오 설정 수정 
 	private void setRecIrCurveHis() {		
@@ -1261,7 +1276,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
     	}    	
 
     	spreadNew = 0.5 * (spreadPos + spreadNeg);
-//    	log.info("Implied Spread0 : {},{}",  spreadNew);
+    	log.info("Implied Spread0 : {},{}",  spreadNew);
     	
     	for(int i=0; i<MAX_ITERATION; i++) {    		
     		

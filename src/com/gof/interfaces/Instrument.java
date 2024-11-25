@@ -13,9 +13,11 @@ public interface Instrument extends Constant {
 	
 	public void setInstrumentEntities(KicsAsset entity) throws Exception;	
 	
-	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
-	
-	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
+//	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
+//	public void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
+
+	// 24.11.22 sy add 시나리오, 통화커브별 금리시나리오 
+	public void setIrScenarioEntities(Integer scenNum,String crnyCd, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
 	
 	public void setFxScenarioEntities(Integer scenNum, String typCd, Double val) throws Exception;
 	

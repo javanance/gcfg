@@ -41,8 +41,11 @@ public abstract class InstrumentAbstract implements Instrument {
 		}
 	}
 	
-	public abstract void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
-	public abstract void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
+//	public abstract void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
+//	public abstract void setIrScenarioFxCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
+	
+	// 24.11.22 sy add 시나리오, 통화커브별 금리시나리오
+	public abstract void setIrScenarioEntities(Integer scenNum,String crnyCd, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception;
 	
 	public abstract void setFxScenarioEntities(Integer scenNum, String typCd, Double val) throws Exception;	
 	
@@ -54,7 +57,6 @@ public abstract class InstrumentAbstract implements Instrument {
 
 	public List<KicsAssetResult> getValuation() throws Exception {return getValuation(TO_ORIGINAL_CURRENCY);}	
 	
-	// 오버로딩 : 같은 메서드에 다른 매개변수 
 	protected void setInstrumentEntities(KicsAssetSecr entity) throws Exception {}
 	
 	protected void setInstrumentEntities(KicsAssetFide entity) throws Exception {}

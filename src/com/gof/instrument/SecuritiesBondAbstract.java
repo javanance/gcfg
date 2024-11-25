@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gof.entity.IrCurve;
+//import com.gof.entity.IrCurve;
 import com.gof.entity.IrCurveHis;
 import com.gof.entity.KicsAssetResult;
 import com.gof.entity.KicsAssetSecr;
@@ -131,31 +131,29 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 		this.irCurveId               = DEFAULT_KRW_RFCURVE_ID;
 		this.irCurve                 = null;
 
-		// 24.06.19 더미 : 코드에서 irCurve를 사용하지 않음.
-		if(entity.getIrCurve() == null || entity.getIrCurve().isEmpty()) {			
-//			log.warn("IrCurve Data is not found at {}!!!", baseDate);		
-		}
-		else if(!entity.getIrCurve().isEmpty() && !entity.getIrCurve().get(0).getIrCurveHis().isEmpty()) {			
-			
-				this.irCurveId               = entity.getIrCurve().get(0).getIrCurveId();
-				this.irCurve                 = entity.getIrCurve();				
-				for(IrCurve irc : irCurve) irCurveHis.put(irc.getIrCurveId(), irc.getIrCurveHis());
-				//log.info("{}, {}, {}", entity.getIrCurve().get(0).getIrCurveId(), entity.getIrCurve(), entity.getIrCurve().get(0));				
-				
-				setIrCurve();
-		}
-		else {
-			log.warn("Q_IC_IR_CURVE_HIS Data is not found at {}!!!", baseDate);
-		    //log.warn("IrCurveHis Data is not found at {}!!!", baseDate);
-		}		
-		
-//		log.info("Set Instrument  in BondAbstract");
+//		// 24.06.19 더미 : 코드에서 irCurve를 사용하지 않음.
+//		if(entity.getIrCurve() == null || entity.getIrCurve().isEmpty()) {			
+////			log.warn("IrCurve Data is not found at {}!!!", baseDate);		
+//		}
+//		else if(!entity.getIrCurve().isEmpty() && !entity.getIrCurve().get(0).getIrCurveHis().isEmpty()) {			
+//			
+//				this.irCurveId               = entity.getIrCurve().get(0).getIrCurveId();
+//				this.irCurve                 = entity.getIrCurve();				
+//				for(IrCurve irc : irCurve) irCurveHis.put(irc.getIrCurveId(), irc.getIrCurveHis());
+//				//log.info("{}, {}, {}", entity.getIrCurve().get(0).getIrCurveId(), entity.getIrCurve(), entity.getIrCurve().get(0));				
+//				
+//				setIrCurve();
+//		}
+//		else {
+//			log.warn("Q_IC_IR_CURVE_HIS Data is not found at {}!!!", baseDate);
+//		    //log.warn("IrCurveHis Data is not found at {}!!!", baseDate);
+//		}		
+//		
+////		log.info("Set Instrument  in BondAbstract");
 	}	
 	
-
-	
     @Override
-	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception {
+	public void setIrScenarioEntities(Integer scenNum, String crnyCd, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception {
 		
 		this.scenNum          = scenNum;
 		this.scenarioCurveHis = scenarioCurveHis;
@@ -163,6 +161,16 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 		this.setIrCurve();				
 		log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}, {}", this.scenNum, this.scenarioCurveHis.size());
 	}
+	
+//    @Override
+//	public void setIrScenarioCurveEntities(Integer scenNum, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception {
+//		
+//		this.scenNum          = scenNum;
+//		this.scenarioCurveHis = scenarioCurveHis;
+//		this.impSpread        = GeneralUtil.objectToPrimitive(spread);		
+//		this.setIrCurve();				
+//		log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {}, {}", this.scenNum, this.scenarioCurveHis.size());
+//	}
 	
 	
 	private void setIrCurve() throws Exception {

@@ -1,7 +1,10 @@
 package com.gof.entity;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,17 +49,17 @@ public class KicsAssetFide implements Serializable, EntityIdIdentifier, KicsAsse
 	
 	private static final long serialVersionUID = -7495051060668876802L;	
 	
-//    //OneToManyÀÎ °æ¿ì¿¡´Â ÁÖÃ¼°¡ µÇ´Â entity¸¦ mappedBy ÇØÁÖ¾î¾ß ÇÑ´Ù. ¿ª½Ã One¿¡ ÇØ´çÇÏ´Â º» ¿£Æ¼Æ¼ÀÇ ID´Â ÇÏ³ªÀÌ¹Ç·Î BSE_DT ÀÌ³Ä BASE_DATEÀÌ³Ä´Â ¿µÇâÀ» ¹ÌÄ¡Áö ¾Ê´Â´Ù. 
-//	//OneToOne°ú´Â ´Ù¸£°Ô ÀÌ°æ¿ì¿¡´Â ÂüÁ¶ÇÏ´Â ¿£Æ¼Æ¼¿¡µµ º» ¿£Æ¼Æ¼¿¡ °üÇÑ ³»¿ëÀ» ±¸ÇöÇØÁÖ¾î¾ß ÇÑ´Ù.  ±×¸®°í ÀÌ °æ¿ì´Â JoinColumn ´ë½Å¿¡ mappedBy°¡ »ç¿ëµÈ ÇüÅÂÀÌ´Ù.
-//	//@JoinColumn(name="BSE_DT", insertable=false, updatable=false) ÀÌ·± Ç¥ÇöÀÌ µé¾î°¡¼­´Â ¾ÈµÈ´Ù.
+//    //OneToManyï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ç´ï¿½ entityï¿½ï¿½ mappedBy ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ Oneï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ¼Æ¼ï¿½ï¿½ IDï¿½ï¿½ ï¿½Ï³ï¿½ï¿½Ì¹Ç·ï¿½ BSE_DT ï¿½Ì³ï¿½ BASE_DATEï¿½Ì³Ä´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ê´Â´ï¿½. 
+//	//OneToOneï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Æ¼Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ¼Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.  ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ JoinColumn ï¿½ï¿½Å¿ï¿½ mappedByï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
+//	//@JoinColumn(name="BSE_DT", insertable=false, updatable=false) ï¿½Ì·ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÈ´ï¿½.
 //	@OneToMany(fetch=FetchType.LAZY, mappedBy="kicsAssDe")	
 //	@NotFound(action=NotFoundAction.IGNORE)	
 //	private List<IrCurveHis> irCurveHis;	
 //	public List<IrCurveHis> getIrCurveHis() { return irCurveHis; }
 //	public void setIrCurveHis(List<IrCurveHis> irCurveHis) { this.irCurveHis = irCurveHis; }
 	
-//    //OneToOneÀÎ °æ¿ì´Â Target Entity¿¡´Â ¾î¶°ÇÑ Ã³¸®¸¦ ÇÏÁö ¾Ê°í ¿©±â¿¡¼­¸¸ @¸¦ Á¤ÀÇÇÑ´Ù. ÀÌ°æ¿ì´Â Á¶ÀÎÅ°°¡ ÀÌ¸§ÀÌ ´Ù¸£Áö¸¸(BSE_DT vs BASE_DATE) OneToOneÀÌ¶ó¼­ ÀÎÁö °á°ú¿¡ ¿µÇâÀ» ¹ÌÄ¡Áö´Â ¾Ê´Â´Ù. ÀÌ »óÅÂ´Â µÎ entityÀÇ ID°¡ ÇÑ°³ÀÌ¾î¾ß¸¸ ÇÑ´Ù.
-//    //¾Æ·¡ Å¬·¡½º º¯¼ö¸¦ ¼±¾ðÇÒ¶§ CollectionÇüÅÂ¸¦ »ç¿ëÇÏ¸é ¿¡·¯°¡ ³­´Ù(LISTµî)
+//    //OneToOneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Target Entityï¿½ï¿½ï¿½ï¿½ ï¿½î¶°ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ï¿½ï¿½ @ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½(BSE_DT vs BASE_DATE) OneToOneï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½ ï¿½ï¿½ entityï¿½ï¿½ IDï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ì¾ï¿½ß¸ï¿½ ï¿½Ñ´ï¿½.
+//    //ï¿½Æ·ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ Collectionï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(LISTï¿½ï¿½)
 //	@OneToOne
 //	@JoinColumn(name ="BSE_DT")
 //	private IrCurveHis irCurveHis;
@@ -183,6 +186,18 @@ public class KicsAssetFide implements Serializable, EntityIdIdentifier, KicsAsse
 	@Override
 	public String getCrnyCd() {		
 		return null;
+	}
+	@Override
+	public Set<String> getCrnySet() {
+	    Set<String> crnySet = new HashSet<>();
+	    
+	    if (this.recCrnyCd != null && !this.recCrnyCd.isEmpty()) {
+	        crnySet.add(this.recCrnyCd);
+	    }
+	    if (this.payCrnyCd != null && !this.payCrnyCd.isEmpty()) {
+	        crnySet.add(this.payCrnyCd);
+	    }
+	    return crnySet.isEmpty() ? Collections.emptySet() : crnySet;
 	}
 	
 }
