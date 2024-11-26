@@ -806,7 +806,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		
 			dcntRecMatTerm = recMatTerm;		 
 			dcntRecMatTermIntRate = recMatTermIntRate;
-			log.info("foreign rec curve : {},{},{}", recCurrency, scenarioForeignCurveHis.get("M0012"),recMatTermIntRate);
+			log.info("rec curve : {},{},{}", recCurrency, scenarioForeignCurveHis.get("M0012"),recMatTermIntRate);
 		}
 		else {
 			payMatTerm = scenarioForeignCurveHis.keySet().stream().toArray(String[]::new);			
@@ -814,7 +814,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			
 			dcntPayMatTerm = payMatTerm;		 
 			dcntPayMatTermIntRate = payMatTermIntRate;
-			log.info("foreign Pay curve : {},{},{}",  payCurrency, scenarioForeignCurveHis.get("M0012"),payMatTermIntRate);
+			log.info("Pay curve : {},{},{}",  payCurrency, scenarioForeignCurveHis.get("M0012"),payMatTermIntRate);
 		}	
 	}
 	

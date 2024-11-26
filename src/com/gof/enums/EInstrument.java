@@ -97,7 +97,7 @@ public enum EInstrument {
 
 
     public Instrument getInstrumentModel() throws Exception {    	
-    	log.info("In Einstrument :{},{}", instCode);
+//    	log.info("In Einstrument :{},{}", instCode);
 
 	    switch(this.instCode) {    	
 	

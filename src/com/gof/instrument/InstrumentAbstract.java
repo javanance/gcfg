@@ -241,7 +241,11 @@ public abstract class InstrumentAbstract implements Instrument {
 			if(dates[i].isAfter(baseDate)) {
 				pv += discountFactor[i] * cashflows[i];				
 			}			
-//			log.info("PV in Inst 1 : {}, {}, {}, {}, {}, {},{},{}", getExpoId(), i, dates[i], cashflows[i], discountFactor[i] ,  pv);
+//			log.info("PV in Inst 1 :  {}, {}, {}, {}, {},{},{}",  i, dates[i], cashflows[i],dcntRate[i], discountFactor[i] ,  pv);
+//			log.info(  "PV in Inst 1 :  i: {}, date: {}, cashflow: {}, dcntRate: {}, discountFactor: {}, pv: {}",  i, dates[i], cashflows[i], dcntRate[i], discountFactor[i], pv);
+			if (i != 0) {
+			    log.info("PV in Inst 1 :date: {}, cashflow: {}, dcntRate: {}, discountFactor: {}, pv: {}", dates[i], cashflows[i], dcntRate[i], discountFactor[i], pv);
+			}
 		}		
 		
 //		log.info("PV in Inst : {}", pv);
