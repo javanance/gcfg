@@ -575,7 +575,7 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
         		if(Math.abs(spreadNew - spreadNeg) < ZERO_DOUBLE) return spreadNew;        		
         	}
         	else return spreadNew;
-    		log.info("i :{} ,calc spread :{}",i, spreadNew);
+//    		log.info("i :{} ,calc spread :{}",i, spreadNew);
     		
     	}   
     	log.warn("Calculating Implied Spread is failed: [{}]", this.getExpoId());
@@ -613,7 +613,7 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
     		
     		switch(fe.intValue()) {
 			    case FE_PRINCIPAL_CF: {
-			    	log.info("calc FE : {} FE_PRINCIPAL_CF ", fe );
+			    	log.debug("calc FE : {} FE_PRINCIPAL_CF ", fe );
 			    	for(int i=0; i<payoffDate.length; i++) {			    		
 			    		this.result.setResultDate(TimeUtil.dateToString(payoffDate[i]));
 			    		this.result.setValue(Math.floor(this.principalPayoffAmount[i] * fxRatio));
@@ -622,7 +622,7 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 			    	break;
 			    }
 			    case FE_INTEREST_CF: {			
-			    	log.info("calc FE : {} FE_INTEREST_CF", fe );
+			    	log.debug("calc FE : {} FE_INTEREST_CF", fe );
 			    	for(int i=0; i<payoffDate.length; i++) {			    		
 			    		this.result.setResultDate(TimeUtil.dateToString(payoffDate[i]));
 			    		this.result.setValue(Math.floor(this.interestPayoffAmount[i] * fxRatio)); 
@@ -632,77 +632,77 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 			    	break;
 			    }
 			    case FE_YIELD_TO_MATURITY: {			
-			    	log.info("calc FE : {} FE_YIELD_TO_MATURITY", fe );
+			    	log.debug("calc FE : {} FE_YIELD_TO_MATURITY", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 			    	this.result.setValue(getYieldToMaturity());
 			    	cflist.add(cloneEntity(this.result));			    	
 			    	break;			    	
 			    }
 			    case FE_PV_DIRTY: {			    	
-			    	log.info("calc FE : {} FE_PV_DIRTY", fe );
+			    	log.debug("calc FE : {} FE_PV_DIRTY", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 			    	this.result.setValue(Math.floor(getPresentValue() * fxRatio));
 			    	cflist.add(cloneEntity(this.result));			    	
 			    	break;
 			    }			    
 			    case FE_ACCRUED_INTEREST: {				
-			    	log.info("calc FE : {} FE_ACCRUED_INTEREST", fe );
+			    	log.debug("calc FE : {} FE_ACCRUED_INTEREST", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 			    	this.result.setValue(Math.floor(getAccruedInterest() * fxRatio));
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }
 			    case FE_PV_CLEAN: {					
-			    	log.info("calc FE : {} FE_PV_CLEAN", fe );
+			    	log.debug("calc FE : {} FE_PV_CLEAN", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 			    	this.result.setValue(Math.floor(getPresentValueClean() * fxRatio));						    	
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }
 			    case FE_EFFECTIVE_MATURITY: {		
-			    	log.info("calc FE : {} FE_EFFECTIVE_MATURITY", fe );
+			    	log.debug("calc FE : {} FE_EFFECTIVE_MATURITY", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 			    	this.result.setValue(getEffectiveMaturity());			    	
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }
 			    case FE_EFFECTIVE_DURATION: {						    							    	
-			    	log.info("calc FE : {} FE_EFFECTIVE_DURATION", fe );
+			    	log.debug("calc FE : {} FE_EFFECTIVE_DURATION", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 			    	this.result.setValue(getEffectiveDuration());
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }
 			    case FE_MODIFIED_DURATION: {			
-			    	log.info("calc FE : {} FE_MODIFIED_DURATION", fe );
+			    	log.debug("calc FE : {} FE_MODIFIED_DURATION", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 			    	this.result.setValue(getModifiedDuration());
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }
 			    case FE_BS_AMOUNT: {		
-			    	log.info("calc FE : {} FE_BS_AMOUNT", fe );
+			    	log.debug("calc FE : {} FE_BS_AMOUNT", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));			    	
 			    	this.result.setValue(getFairBsAmt() / (currencyType && !this.currency.equals(DEF_CURRENCY) ? this.fxRateBase : DEF_FX_RATE));
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }
 			    case FE_ACCRUED_INT_BS: {		
-			    	log.info("calc FE : {} FE_ACCRUED_INT_BS", fe );
+			    	log.debug("calc FE : {} FE_ACCRUED_INT_BS", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));			    	
 			    	this.result.setValue((getAccrAmt() - getUernAmt()) / (currencyType && !this.currency.equals(DEF_CURRENCY) ? this.fxRateBase : DEF_FX_RATE));
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }			   
 			    case FE_IRATE_EXPOSURE: {				
-			    	log.info("calc FE : {} FE_IRATE_EXPOSURE", fe );
+			    	log.debug("calc FE : {} FE_IRATE_EXPOSURE", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 			    	this.result.setValue(Math.floor(getPresentValueClean() * fxRatio));						    	
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }			    
 			    case FE_FXRT_EXPOSURE: {		
-			    	log.info("calc FE : {} FE_FXRT_EXPOSURE", fe );
+			    	log.debug("calc FE : {} FE_FXRT_EXPOSURE", fe );
 			    	if(this.currency != null && !this.currency.equals(DEF_CURRENCY)) {
 				    	this.result.setCurrency(this.currency);
 				    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
@@ -712,7 +712,7 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 			    	break;
 			    }
 			    case FE_STOCK_EXPOSURE: {			
-			    	log.info("calc FE : {} FE_STOCK_EXPOSURE", fe );
+			    	log.debug("calc FE : {} FE_STOCK_EXPOSURE", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 			    	this.result.setValue(Math.floor(0 * fxRatio));
 			    	if(Math.abs(this.result.getValue()) > ZERO_DOUBLE) cflist.add(cloneEntity(this.result));
@@ -720,14 +720,14 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 			    	break;
 			    }			    
 			    case FE_IMPLIED_SPREAD: {
-			    	log.info("calc FE : {} FE_IMPLIED_SPREAD", fe );
+			    	log.debug("calc FE : {} FE_IMPLIED_SPREAD", fe );
 			    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 			    	this.result.setValue(getImpliedSpread());						    	
 			    	cflist.add(cloneEntity(this.result));
 			    	break;
 			    }				
 			    case FE_IMPLIED_MATURITY: {		
-			    	log.info("calc FE : {} FE_IMPLIED_MATURITY", fe );
+			    	log.debug("calc FE : {} FE_IMPLIED_MATURITY", fe );
 			    	if(this.embeddedOption == EMBEDDED_OPTION) {
 			    		this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 			    		this.result.setValue(getImpliedMaturity());						    	

@@ -61,6 +61,7 @@ public class Main {
 //    private static List<KicsAssetResult> results;    
     
 	public static List<Integer> irScenarioIndexList = new ArrayList<Integer>();
+//	public static Map<String, Double> impliedSpreadMap = new HashMap<String, Double>();
 	
 	//////////////////////////////////////
 	public static String irModelId;

@@ -226,6 +226,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 	@Override
 	public void setIrScenarioEntities(Integer scenNum, String crnyCd, Map<String, IrCurveHis> scenarioCurveHis, Double spread) throws Exception{
 		scenarioForeignCurveHis = scenarioCurveHis;
+		this.impliedSpread = spread ;
 		
 	    if (recCurrency.equals(crnyCd)) {
 	        setScenarioFxCurveHis("REC");
@@ -298,7 +299,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			    		this.result.setResultName(setResultDefineMap(fe));
 			    		
 			    		switch(fe.intValue()) {
-						    case FE_PRINCIPAL_CF: {						    							    	
+						    case FE_PRINCIPAL_CF: {
 						    	for(int i=0; i<recPayoffDate.length; i++) {						    		
 						    		this.result.setResultDate(TimeUtil.dateToString(recPayoffDate[i]));		
 						    		this.result.setValue(Math.floor(this.recPrincipalPayoffAmount[i] * recFxRatio));						    		
@@ -306,7 +307,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	}
 						    	break;
 						    }
-						    case FE_INTEREST_CF: {						    							    	
+						    case FE_INTEREST_CF: {				
 						    	for(int i=0; i<recPayoffDate.length; i++) {
 						    		this.result.setResultDate(TimeUtil.dateToString(recPayoffDate[i]));
 						    		this.result.setValue(Math.floor(this.recInterestPayoffAmount[i] * recFxRatio));						    		
@@ -314,13 +315,13 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	}
 						    	break;
 						    }
-						    case FE_YIELD_TO_MATURITY: {			    	
+						    case FE_YIELD_TO_MATURITY: {			
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(getYieldToMaturity(REC_LEG_KEY));
 						    	cflist.add(cloneEntity(this.result));			    	
 						    	break;			    	
 						    }						    
-						    case FE_PV_DIRTY: {						    							    	
+						    case FE_PV_DIRTY: {				
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));						    	
 						    	this.result.setValue(Math.floor(getPresentValue(REC_LEG_KEY) * recFxRatio));
 						    	cflist.add(cloneEntity(this.result));
@@ -332,37 +333,37 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_PV_CLEAN: {						    							    	
+						    case FE_PV_CLEAN: {						    
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(Math.floor(getPresentValueClean(REC_LEG_KEY) * recFxRatio));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_EFFECTIVE_MATURITY: {						    							    	
+						    case FE_EFFECTIVE_MATURITY: {		
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 						    	this.result.setValue(getEffectiveMaturity(REC_LEG_KEY));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }						
-						    case FE_EFFECTIVE_DURATION: {						    							    	
+						    case FE_EFFECTIVE_DURATION: {			
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 						    	this.result.setValue(getEffectiveDuration(REC_LEG_KEY));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }			
-						    case FE_MODIFIED_DURATION: {						    							    	
+						    case FE_MODIFIED_DURATION: {						    
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 						    	this.result.setValue(getModifiedDuration(REC_LEG_KEY));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_ACCRUED_INT_BS: {						    							    	
+						    case FE_ACCRUED_INT_BS: {						    	
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));			    	
 						    	this.result.setValue(getAccrAmt() / (currencyType && !this.recCurrency.equals(DEF_CURRENCY) ? this.recFxRate : DEF_FX_RATE));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }						
-						    case FE_IRATE_EXPOSURE: {						    							    	
+						    case FE_IRATE_EXPOSURE: {						    	
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(Math.floor(getPresentValueClean(REC_LEG_KEY) * recFxRatio));
 						    	cflist.add(cloneEntity(this.result));
@@ -377,7 +378,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	}
 						    	break;
 						    }
-						    case FE_STOCK_EXPOSURE: {						    							    	
+						    case FE_STOCK_EXPOSURE: {						
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(Math.floor(0 * recFxRatio));
 						    	if(Math.abs(this.result.getValue()) > ZERO_DOUBLE) cflist.add(cloneEntity(this.result));
@@ -397,7 +398,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			    		this.result.setResultName(setResultDefineMap(fe));
 			    		
 			    		switch(fe.intValue()) {			    		
-						    case FE_PRINCIPAL_CF: {						    							    	
+						    case FE_PRINCIPAL_CF: {						   
 						    	for(int i=0; i<payPayoffDate.length; i++) {						    		
 						    		this.result.setResultDate(TimeUtil.dateToString(payPayoffDate[i]));
 						    		this.result.setValue(Math.floor(this.payPrincipalPayoffAmount[i] * payFxRatio));						    		
@@ -405,7 +406,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	}
 						    	break;
 						    }
-						    case FE_INTEREST_CF: {						    							    	
+						    case FE_INTEREST_CF: {						    	
 						    	for(int i=0; i<payPayoffDate.length; i++) {						    		
 						    		this.result.setResultDate(TimeUtil.dateToString(payPayoffDate[i]));				
 						    		this.result.setValue(Math.floor(this.payInterestPayoffAmount[i] * payFxRatio));
@@ -419,19 +420,19 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	cflist.add(cloneEntity(this.result));			    	
 						    	break;			    	
 						    }						    
-						    case FE_PV_DIRTY: {						    							    	
+						    case FE_PV_DIRTY: {						    				
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(Math.floor(getPresentValue(PAY_LEG_KEY) * payFxRatio));			    	
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_ACCRUED_INTEREST: {						    							    	
+						    case FE_ACCRUED_INTEREST: {						  
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(Math.floor(getAccruedInterest(PAY_LEG_KEY) * payFxRatio));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_PV_CLEAN: {						    							    	
+						    case FE_PV_CLEAN: {						    	
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(Math.floor(getPresentValueClean(PAY_LEG_KEY) * payFxRatio));						    	
 						    	cflist.add(cloneEntity(this.result));
@@ -449,13 +450,13 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }			
-						    case FE_MODIFIED_DURATION: {						    							    	
+						    case FE_MODIFIED_DURATION: {						    				
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 						    	this.result.setValue(getModifiedDuration(PAY_LEG_KEY));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_ACCRUED_INT_BS: {						    							    	
+						    case FE_ACCRUED_INT_BS: {						    							
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));			    	
 						    	this.result.setValue(getUernAmt() / (currencyType && !this.recCurrency.equals(DEF_CURRENCY) ? this.payFxRate : DEF_FX_RATE));
 						    	cflist.add(cloneEntity(this.result));
@@ -496,7 +497,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			    		this.result.setResultName(setResultDefineMap(fe));
 			    		
 			    		switch(fe.intValue()) {
-						    case FE_PRINCIPAL_CF: {						    							    	
+						    case FE_PRINCIPAL_CF: {				
 						    	for(int i=0; i<netPayoffDate.length; i++) {
 						    		this.result.setResultDate(TimeUtil.dateToString(netPayoffDate[i]));
 						    		this.result.setValue(Math.floor(this.recPrincipalPayoffAmount[i] * this.recFxRate - this.payPrincipalPayoffAmount[i] * this.payFxRate)); 
@@ -518,13 +519,13 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	cflist.add(cloneEntity(this.result));			    	
 						    	break;			    	
 						    }						    
-						    case FE_PV_DIRTY: {						    							    	
+						    case FE_PV_DIRTY: {						    		
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(Math.floor(getPresentValue(NET_LEG_KEY)));
 						    	cflist.add(cloneEntity(this.result));					    	
 						    	break;
 						    }
-						    case FE_ACCRUED_INTEREST: {						    							    	
+						    case FE_ACCRUED_INTEREST: {					
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 						    	this.result.setValue(Math.floor(getAccruedInterest(NET_LEG_KEY)));
 						    	cflist.add(cloneEntity(this.result));
@@ -542,19 +543,19 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_EFFECTIVE_DURATION: {						    							    	
+						    case FE_EFFECTIVE_DURATION: {					
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 						    	this.result.setValue(getEffectiveDuration(NET_LEG_KEY));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_MODIFIED_DURATION: {						    							    	
+						    case FE_MODIFIED_DURATION: {						
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));    	
 						    	this.result.setValue(getModifiedDuration(NET_LEG_KEY));
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_BS_AMOUNT: {						    							    	
+						    case FE_BS_AMOUNT: {						    			
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(getFairBsAmt());
 						    	cflist.add(cloneEntity(this.result));
@@ -566,7 +567,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }			
-						    case FE_IRATE_EXPOSURE: {						    							    	
+						    case FE_IRATE_EXPOSURE: {						    				
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(Math.floor(getPresentValueClean(NET_LEG_KEY)));
 						    	cflist.add(cloneEntity(this.result));
@@ -583,18 +584,19 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 						    	break;
 						    }						    
 						    case FE_IMPLIED_SPREAD: {						    							    	
+						    	log.debug("NET calc FE : {} FE_IMPLIED_SPREAD", fe );
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(getImpliedSpread());						    	
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_KTB_FORWARD_RATE: {						    							    	
+						    case FE_KTB_FORWARD_RATE: {						    					
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(getKtbForwardRate());						    	
 						    	cflist.add(cloneEntity(this.result));
 						    	break;
 						    }
-						    case FE_IMPLIED_SIGMA: {						    							    	
+						    case FE_IMPLIED_SIGMA: {						    			
 						    	this.result.setResultDate(TimeUtil.dateToString(this.baseDate));
 						    	this.result.setValue(getOptionImpliedSigma());						    	
 						    	cflist.add(cloneEntity(this.result));
@@ -802,19 +804,30 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			this.isRecIrCalibration = INTEGER_TRUE;			
 
 			recMatTerm = scenarioForeignCurveHis.keySet().stream().toArray(String[]::new);			
-			recMatTermIntRate = addSpread(scenarioForeignCurveHis.values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), 0.0);
+			recMatTermIntRate = addSpread(scenarioForeignCurveHis.values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), this.recDiscountSpread);
 		
 			dcntRecMatTerm = recMatTerm;		 
 			dcntRecMatTermIntRate = recMatTermIntRate;
-			log.info("rec curve : {},{},{}", recCurrency, scenarioForeignCurveHis.get("M0012"),recMatTermIntRate);
+			log.info("rec curve : {},{},{}", recCurrency,this.isRecIrCalibration ,recMatTermIntRate);
 		}
 		else {
+			
+			
+	    	// TODO : CHECK!!!  기존 엔진 로직 확인  
+	    	// 채권선도 , 국채선물은 REC / PAY 모두 고려하여 내재스프레드를 산출 & 적용 INST_DTLS_TPCD =7 
+	    	// 그외 파생 (통화 /외환 스왑)은 REC cf 만을 고려하여 내재스프레드를 산출 & 적용하고 있음 
+			
+			if (this.instDtlsTpcd == 7) {
+				this.payDiscountSpread = this.impliedSpread;
+				this.isPayIrCalibration = INTEGER_TRUE;
+			}
+			
 			payMatTerm = scenarioForeignCurveHis.keySet().stream().toArray(String[]::new);			
-			payMatTermIntRate = addSpread(scenarioForeignCurveHis.values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), 0.0 );			
+			payMatTermIntRate = addSpread(scenarioForeignCurveHis.values().stream().map(s -> toRealScale * s.getIntRate()).mapToDouble(Double::doubleValue).toArray(), this.payDiscountSpread );			
 			
 			dcntPayMatTerm = payMatTerm;		 
 			dcntPayMatTermIntRate = payMatTermIntRate;
-			log.info("Pay curve : {},{},{}",  payCurrency, scenarioForeignCurveHis.get("M0012"),payMatTermIntRate);
+			log.info("Pay curve : {},{},{}",  payCurrency, this.isPayIrCalibration ,payMatTermIntRate);
 		}	
 	}
 	
@@ -841,7 +854,6 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 //		
 //	}
 
-	// TODO : 외화 통화인 경우 시나리오 설정 수정 
 	private void setRecIrCurveHis() {		
 		
 		//this.toRealScale = TO_REAL_INT_RATE;		
@@ -860,7 +872,6 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		//log.info("REC HIS: {}, {}, {}", this.irCurveHis, recMatTerm, recMatTermIntRate);
 	}
 	
-	// TODO : 외화 통화인 경우 시나리오 설정 수정 
 	private void setPayIrCurveHis() {
 		
 		//this.toRealScale = TO_REAL_INT_RATE;
@@ -1276,7 +1287,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
     	}    	
 
     	spreadNew = 0.5 * (spreadPos + spreadNeg);
-    	log.info("Implied Spread0 : {},{}",  spreadNew);
+//    	log.info("Implied Spread0 : {},{}",  spreadNew);
     	
     	for(int i=0; i<MAX_ITERATION; i++) {    		
     		

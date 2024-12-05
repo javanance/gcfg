@@ -24,7 +24,7 @@
         </Root>
         
         <!-- com.gof 패키지에 대한 로거 설정 -->
-        <Logger name="com.gof" level="DEBUG" additivity="false">
+        <Logger name="com.gof" level="INFO" additivity="false">
             <!-- com.gof 로그에 대한 Appender 참조 -->
             <AppenderRef ref="console"/>
             <AppenderRef ref="logfile"/>

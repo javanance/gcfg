@@ -47,7 +47,7 @@ public class JobProcessor {
 	
 	private static Map<Integer, Map<String, Map<String, IrCurveHis>>> scenarioCurveHisFxMap = new HashMap<Integer, Map<String, Map<String, IrCurveHis>>>();
 	
-	private static Map<String, Double> impliedSpreadMap = new HashMap<String, Double>();    
+	private static Map<String, Double> impliedSpreadMap = new HashMap<String, Double>();
 	private static Map<String, Double> impliedMaturityMap = new HashMap<String, Double>();
 	
 	//////////////////////////////////////
@@ -74,8 +74,6 @@ public class JobProcessor {
 	      try {
 	          Instrument fiInst = getFinancialInstrument(inst);
 	          
-	          // calibration  금리시나리오 적용 
-//	          applyIrScenario( inst,  fiInst, EIrScenario.CALIBRATION.getScenNum(), instCode);
 		      //  24.11.22 sy add 시나리오, 통화커브별 금리시나리오(케이스에 상관없이 통화별 커브를 채워두기 )
 	      		setIrCurveFromScenFxHisMap (inst, fiInst, EIrScenario.CALIBRATION.getScenNum());
 	          
@@ -88,7 +86,7 @@ public class JobProcessor {
 	          // calibration 산출결과 
 	          saveResults(results, count, inst, EIrScenario.CALIBRATION);
 	          
-	          // 내재스프레드산출 
+	          // 내재스프레드 저장 
 	          saveImpliedResults(results, count, inst);
 	          
 	          iii++;
@@ -108,7 +106,8 @@ public class JobProcessor {
 
 	public static void jobForIrScenario(List<KicsAsset> instruments) {
 		
-		// 1.금리시나리오 가져오기 
+		// IR 
+		// 1.금리시나리오 가져오기
 			setIrScenario(irScenarioIndexList);	
 			
 		// 2.평가로직
@@ -124,10 +123,11 @@ public class JobProcessor {
 		            for(Map.Entry<Integer, Map<String, IrCurveHis>> scenarioCurveHis : scenarioCurveHisMap.entrySet()) {	          
 //		            	log.info("Valuation in Main : {},{}", scenarioCurveHis.getKey(), scenarioCurveHis.getValue().get("M0012"));
 	
+		            	
 		        		//  24.11.22 sy add 시나리오, 통화커브별 금리시나리오(케이스에 상관없이 통화별 커브를 채워두기 )
 		        		setIrCurveFromScenFxHisMap (inst, fiInst, scenarioCurveHis.getKey());
-			    	
-		            	fiInst.setImpliedMaturity(impliedMaturityMap.get(inst.getExpoId()));
+		        		
+		        		fiInst.setImpliedMaturity(impliedMaturityMap.get(inst.getExpoId()));
 		            	List<KicsAssetResult> results = fiInst.getValuation(fx);	    	    
 			    	    
 			    	    if(results == null || results.size() < 1) { 
@@ -258,6 +258,7 @@ public class JobProcessor {
 
           if (rst.getResultType().equals(String.valueOf(Instrument.FE_IMPLIED_SPREAD))) {
               impliedSpreadMap.put(inst.getExpoId(), rst.getValue());
+              log.info("EXPO_ID : {}, calc implied Spread : {} ",inst.getExpoId(),rst.getValue());
           }
           if (rst.getResultType().equals(String.valueOf(Instrument.FE_IMPLIED_MATURITY))) {
               impliedMaturityMap.put(inst.getExpoId(), rst.getValue());
@@ -294,13 +295,14 @@ public class JobProcessor {
 			
 			Map<String, IrCurveHis> curveHis = scenarioCurveHisFxMap.getOrDefault(scenNum, Collections.emptyMap()).get(crnyCd);
 			Map<String, IrCurveHis> curveHisAply = (curveHis == null || curveHis.isEmpty()) 
-				    ? scenarioCurveHisFxMap.getOrDefault(scenNum, Collections.emptyMap()).get(irScenarioFxDefault) //Instrument.DEF_CURRENCY  
+				    ? scenarioCurveHisFxMap.getOrDefault(scenNum, Collections.emptyMap()).get(irScenarioFxDefault)  // Instrument.DEF_CURRENCY   
 				    : curveHis;
 			
 			if (curveHisAply != null && !curveHisAply.isEmpty()) {
 			    try {
 			        // 커브를 설정
-			        fiInst.setIrScenarioEntities(scenNum, crnyCd, curveHisAply, impliedSpreadMap.get(inst.getExpoId()));
+			    	log.info( "EXPO_ID : {} , apply spread : {}", inst.getExpoId() ,impliedSpreadMap.get(inst.getExpoId()));
+			        fiInst.setIrScenarioEntities(scenNum, crnyCd, curveHisAply, impliedSpreadMap.getOrDefault(inst.getExpoId(), 0.0));
 			    } catch (Exception e) {
 			        e.printStackTrace(); 
 			    }
