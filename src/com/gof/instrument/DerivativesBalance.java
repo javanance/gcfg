@@ -56,7 +56,8 @@ public class DerivativesBalance extends DerivativesAbstract {
 			switch(leg.intValue()) {			
 
 			    case REC_LEG_KEY: {
-			    	this.result.setCurrency(currencyType ? this.recCurrency : DEF_CURRENCY);
+//			    	this.result.setCurrency(currencyType ? this.recCurrency : DEF_CURRENCY);
+			    	this.result.setCurrency(this.recCurrency);
 	
 			    	for(Integer fe : financialElements) {
 			    		this.result.setResultType(String.format("%02d",fe));
@@ -103,7 +104,8 @@ public class DerivativesBalance extends DerivativesAbstract {
 			    	break;  //switch -> RECEIVE_LEG_KEY
 			    }
 			    case PAY_LEG_KEY: {			    	
-			    	this.result.setCurrency(currencyType ? this.recCurrency : DEF_CURRENCY);
+//			    	this.result.setCurrency(currencyType ? this.payCurrency : DEF_CURRENCY);
+			    	this.result.setCurrency(this.payCurrency);
 	
 			    	for(Integer fe : financialElements) {
 			    		this.result.setResultType(String.format("%02d",fe));

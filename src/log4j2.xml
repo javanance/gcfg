@@ -2,8 +2,8 @@
 <Configuration status="WARN">
     <Appenders>
         <!-- 일별 파일 로그 설정 -->
-        <RollingFile name="logfile" fileName="D:/gcfg.log"
-                     filePattern="D:/gcfg-%d{yyyy-MM-dd}.log">
+        <RollingFile name="logfile" fileName="/SW/qcm_esg/log/gcfg.log"
+                     filePattern="/SW/qcm_esg/log/gcfg-%d{yyyy-MM-dd}.log">
             <PatternLayout pattern="[%d{HH:mm:ss}][%-5p](%F:%L) - %m%n"/>
             <TimeBasedTriggeringPolicy/>
         </RollingFile>

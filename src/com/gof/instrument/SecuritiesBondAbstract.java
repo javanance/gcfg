@@ -159,7 +159,7 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 		this.scenarioCurveHis = scenarioCurveHis;
 		this.impSpread        = GeneralUtil.objectToPrimitive(spread);		
 		this.setIrCurve();				
-		log.info("IR Scenario Curve Entities have been set! SCEN_NUM: {} ,{}, {},{},{}", scenarioCurveHis.get("M0001").getIrCurveId(),crnyCd, this.scenNum, this.scenarioCurveHis.size(),dcntMatTermIntRate[11]);
+		log.debug("IR Scenario Curve Entities have been set! SCEN_NUM: {} ,{}, {},{},{}", scenarioCurveHis.get("M0001").getIrCurveId(),crnyCd, this.scenNum, this.scenarioCurveHis.size(),dcntMatTermIntRate[11]);
 	}
 	
 //    @Override
@@ -602,12 +602,13 @@ public abstract class SecuritiesBondAbstract extends SecuritiesAbstract {
 		this.result.setDeptCd(this.deptCd);
 			
 		this.result.setLegType(DEF_LEG_NAME);		    	
-		this.result.setCurrency(currencyType ? this.currency : DEF_CURRENCY);
+//		this.result.setCurrency(currencyType ? this.currency : DEF_CURRENCY);
+		this.result.setCurrency(this.currency);
 		
 		
 			    	
     	for(Integer fe : financialElements) {			    		
-//    		log.info("in financialElements In Bond Abs : {},{}", fe, financialElements.size());
+    		log.info("in financialElements In Bond Abs : {},{}", fe, financialElements.size());
     		this.result.setResultType(String.format("%02d",fe));
     		this.result.setResultName(setResultDefineMap(fe));
     		

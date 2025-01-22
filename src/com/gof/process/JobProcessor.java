@@ -258,7 +258,7 @@ public class JobProcessor {
 
           if (rst.getResultType().equals(String.valueOf(Instrument.FE_IMPLIED_SPREAD))) {
               impliedSpreadMap.put(inst.getExpoId(), rst.getValue());
-              log.info("EXPO_ID : {}, calc implied Spread : {} ",inst.getExpoId(),rst.getValue());
+              log.debug("EXPO_ID : {}, calc implied Spread : {} ",inst.getExpoId(),rst.getValue());
           }
           if (rst.getResultType().equals(String.valueOf(Instrument.FE_IMPLIED_MATURITY))) {
               impliedMaturityMap.put(inst.getExpoId(), rst.getValue());
@@ -301,7 +301,7 @@ public class JobProcessor {
 			if (curveHisAply != null && !curveHisAply.isEmpty()) {
 			    try {
 			        // 커브를 설정
-			    	log.info( "EXPO_ID : {} , apply spread : {}", inst.getExpoId() ,impliedSpreadMap.get(inst.getExpoId()));
+			    	log.debug( "EXPO_ID : {} , apply spread : {}", inst.getExpoId() ,impliedSpreadMap.get(inst.getExpoId()));
 			        fiInst.setIrScenarioEntities(scenNum, crnyCd, curveHisAply, impliedSpreadMap.getOrDefault(inst.getExpoId(), 0.0));
 			    } catch (Exception e) {
 			        e.printStackTrace(); 

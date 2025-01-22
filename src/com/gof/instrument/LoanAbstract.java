@@ -479,7 +479,9 @@ public abstract class LoanAbstract extends InstrumentAbstract {
 		this.result.setDeptCd(this.deptCd);
 			
 		this.result.setLegType(DEF_LEG_NAME);		    	
-		this.result.setCurrency(currencyType ? this.currency : DEF_CURRENCY);
+//		this.result.setCurrency(currencyType ? this.currency : DEF_CURRENCY);
+		this.result.setCurrency( this.currency);
+		
 			    	
     	for(Integer fe : financialElements) {			    		
     		this.result.setResultType(String.format("%02d",fe));

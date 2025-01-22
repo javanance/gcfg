@@ -230,12 +230,12 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		
 	    if (recCurrency.equals(crnyCd)) {
 	        setScenarioFxCurveHis("REC");
-	        log.info("IR Scenario REC Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
+	        log.debug("IR Scenario REC Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
 	    }
 
 	    if (payCurrency.equals(crnyCd)) {
 	        setScenarioFxCurveHis("PAY");
-	        log.info("IR Scenario  PAY Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
+	        log.debug("IR Scenario  PAY Curve Entities have been set! SCEN_NUM: {}", this.scenNum);
 	    }
 	}
 
@@ -266,7 +266,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 	 */
 	public List<KicsAssetResult> getValuation(boolean currencyType) throws Exception {
 		
-		log.info("getValuation in derivAbs: {},{}", currencyType);
+		log.debug("getValuation in derivAbs: {},{}", currencyType);
 		evaluateCashflow();				
 		
 		List<KicsAssetResult> cflist = new ArrayList<KicsAssetResult>();
@@ -292,7 +292,8 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			switch(leg.intValue()) {			
 			
 			    case REC_LEG_KEY: {		    	
-			    	this.result.setCurrency(currencyType ? this.recCurrency : DEF_CURRENCY);
+//			    	this.result.setCurrency(currencyType ? this.recCurrency : DEF_CURRENCY);
+			    	this.result.setCurrency(this.recCurrency);
 			    	
 			    	for(Integer fe : financialElements) {			    		
 			    		this.result.setResultType(String.format("%02d",fe));
@@ -391,7 +392,8 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			    	break;  //switch -> REC_LEG_KEY
 			    }			    
 			    case PAY_LEG_KEY: {			    	
-			    	this.result.setCurrency(currencyType ? this.payCurrency : DEF_CURRENCY);
+//			    	this.result.setCurrency(currencyType ? this.payCurrency : DEF_CURRENCY);
+			    	this.result.setCurrency(this.payCurrency);
 			    	
 			    	for(Integer fe : financialElements) {			    		
 			    		this.result.setResultType(String.format("%02d",fe));
@@ -808,7 +810,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 		
 			dcntRecMatTerm = recMatTerm;		 
 			dcntRecMatTermIntRate = recMatTermIntRate;
-			log.info("rec curve : {},{},{}", recCurrency,this.isRecIrCalibration ,recMatTermIntRate);
+			log.debug("rec curve : {},{},{}", recCurrency,this.isRecIrCalibration ,recMatTermIntRate);
 		}
 		else {
 			
@@ -827,7 +829,7 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 			
 			dcntPayMatTerm = payMatTerm;		 
 			dcntPayMatTermIntRate = payMatTermIntRate;
-			log.info("Pay curve : {},{},{}",  payCurrency, this.isPayIrCalibration ,payMatTermIntRate);
+			log.debug("Pay curve : {},{},{}",  payCurrency, this.isPayIrCalibration ,payMatTermIntRate);
 		}	
 	}
 	
@@ -894,13 +896,13 @@ public abstract class DerivativesAbstract extends InstrumentAbstract {
 	
 	protected void evaluateCashflow() throws Exception {
 		
-		log.info("evaluateCashflow in DerivAbs:{},{}");
+		log.debug("evaluateCashflow in DerivAbs:{},{}");
 		
 		setAttributes();		
 		setPayoffDate();
 		setPayoffAmount();
 		
-		log.info("evaluateCashflow in DerivAbs End:{},{}");
+		log.debug("evaluateCashflow in DerivAbs End:{},{}");
 	}
 	
 	

@@ -127,7 +127,7 @@ public class DerivativesKtbForward extends DerivativesAbstract {
 		
 		this.fwdPayoffDate = temp.stream().toArray(LocalDate[]::new);
 		this.ktbPayoffDate = generateCashflowArray(this.maturityDate, this.ktbMaturityDate, ktbPmtCyc, this.paymentTermType, this.cfDirection).stream().toArray(LocalDate[]::new);
-		log.info("ktb payoff Date : {},{}", fwdPayoffDate.length,  ktbPayoffDate.length);
+		log.debug("ktb payoff Date : {},{}", fwdPayoffDate.length,  ktbPayoffDate.length);
 		
 		this.recPayoffDate = new LocalDate[ktbPayoffDate.length +1] ; 
 		this.payPayoffDate = new LocalDate[ktbPayoffDate.length +1] ; 
@@ -147,8 +147,8 @@ public class DerivativesKtbForward extends DerivativesAbstract {
 	
 	protected void setPayoffAmount() throws Exception {	    
 	    
-		log.info("Set payoff amt in ktb forward: {},{},{}" , isLongPosition, ktbPayoffDate.length, fwdPayoffDate.length);
-		log.info("Set payoff amt in ktb forward1: {},{},{},{}" , ktbPaymentFreq, ktbFaceValue, fwdFaceValue, ktbCouponRate);
+		log.debug("Set payoff amt in ktb forward: {},{},{}" , isLongPosition, ktbPayoffDate.length, fwdPayoffDate.length);
+		log.debug("Set payoff amt in ktb forward1: {},{},{},{}" , ktbPaymentFreq, ktbFaceValue, fwdFaceValue, ktbCouponRate);
 		
 		recPrincipalPayoffAmount = new double[ktbPayoffDate.length+1];   	
     	recInterestPayoffAmount  = new double[ktbPayoffDate.length+1];    	
@@ -209,7 +209,7 @@ public class DerivativesKtbForward extends DerivativesAbstract {
     	}
     	
 		
-	    log.info("Payoff in KtbFwd : {},{},{},{},{}, {}", this.ktbSpotPrice, this.fwdSpotPrice,  netPayoffDate, this.recPayoffAmount, this.payPayoffAmount);
+	    log.debug("Payoff in KtbFwd : {},{},{},{},{}, {}", this.ktbSpotPrice, this.fwdSpotPrice,  netPayoffDate, this.recPayoffAmount, this.payPayoffAmount);
     }    
 
     
@@ -275,8 +275,8 @@ public class DerivativesKtbForward extends DerivativesAbstract {
 //    }    
 
     /**
-     * this.spotPriceBase ´Â ±¹Ã¤¼±¹°ÀÇ °æ¿ì ÇöÀç ½ÃÀå°¡°ÝÀÌ´Ù. ÀÌ ½ÃÀå°¡¸¦ ±âÁØÀ¸·Î ÇöÀç Àû¿ëµÇ´Â ³»Àç YTM(Àû¿ë¼±µµ±Ý¸®)¸¦ µµÃâÇÏ´Â °úÁ¤À» °ÅÄ£´Ù.
-     * this.spotPrice/PriceBase´Â ÁÖ½ÄÃæ°Ý°ú ¹«°üÇÑ °ªÀÌ´Ù. KTB FUTURESÀÇ °æ¿ì 100¿øÀ¸·Î È¯»êµÈ ½ÃÀå°¡°ÝÀÓ.
+     * this.spotPriceBase ï¿½ï¿½ ï¿½ï¿½Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å°¡ï¿½ï¿½ï¿½Ì´ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½å°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ YTM(ï¿½ï¿½ï¿½ë¼±ï¿½ï¿½ï¿½Ý¸ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä£ï¿½ï¿½.
+     * this.spotPrice/PriceBaseï¿½ï¿½ ï¿½Ö½ï¿½ï¿½ï¿½Ý°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½. KTB FUTURESï¿½ï¿½ ï¿½ï¿½ï¿½ 100ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¯ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å°¡ï¿½ï¿½ï¿½ï¿½.
      */
     
     @Override
@@ -288,7 +288,7 @@ public class DerivativesKtbForward extends DerivativesAbstract {
     @Override
     protected double getImpliedSpread(double targetUnitPrice) throws Exception {
     	
-    	log.info("Imp in Ktb fwd1: {},{}", spotPrice, targetUnitPrice);
+    	log.debug("Imp in Ktb fwd1: {},{}", spotPrice, targetUnitPrice);
     	return getImpliedSpread(targetUnitPrice, INITIAL_GUESS);    	
     }    
     
@@ -301,7 +301,7 @@ public class DerivativesKtbForward extends DerivativesAbstract {
 //    @Override
     public List<KicsAssetResult> getValuation(boolean currencyType) throws Exception {
 		
-		log.info("getValuation in KTB FWD: {},{}", currencyType);
+		log.debug("getValuation in KTB FWD: {},{}", currencyType);
 		evaluateCashflow();				
 		
 		List<KicsAssetResult> cflist = new ArrayList<KicsAssetResult>();
@@ -327,7 +327,8 @@ public class DerivativesKtbForward extends DerivativesAbstract {
 			switch(leg.intValue()) {			
 			
 			    case REC_LEG_KEY: {		    	
-			    	this.result.setCurrency(currencyType ? this.recCurrency : DEF_CURRENCY);
+//			    	this.result.setCurrency(currencyType ? this.recCurrency : DEF_CURRENCY);
+			    	this.result.setCurrency(this.recCurrency);
 			    	
 			    	for(Integer fe : financialElements) {			    		
 			    		this.result.setResultType(String.format("%02d",fe));
@@ -426,7 +427,8 @@ public class DerivativesKtbForward extends DerivativesAbstract {
 			    	break;  //switch -> REC_LEG_KEY
 			    }			    
 			    case PAY_LEG_KEY: {			    	
-			    	this.result.setCurrency(currencyType ? this.payCurrency : DEF_CURRENCY);
+//			    	this.result.setCurrency(currencyType ? this.payCurrency : DEF_CURRENCY);
+			    	this.result.setCurrency(this.payCurrency);
 			    	
 			    	for(Integer fe : financialElements) {			    		
 			    		this.result.setResultType(String.format("%02d",fe));

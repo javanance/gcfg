@@ -81,7 +81,7 @@ public class SecuritiesAccount extends SecuritiesAbstract {
 
 	
 	/**
-     * TODO: EQUITY, NON EQUITY, EQUITY OPTION, EQUITY FUTURES,  ·Î ±¸ºÐÇÑ´Ù? ±×¸®°í ³ª¸ÓÁö ÀÜÃ¬ÀÌµé °è»ê¸øÇÏ´Â ¾Öµé....ÁÖ½ÄÃæ°Ý ¾È¸ÔÀ» ¾Öµé...¿ÜÈ¯Á¤µµ?
+     * TODO: EQUITY, NON EQUITY, EQUITY OPTION, EQUITY FUTURES,  ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½? ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¬ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Öµï¿½....ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ ï¿½È¸ï¿½ï¿½ï¿½ ï¿½Öµï¿½...ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½?
      */	
     @Override
 	public List<KicsAssetResult> getValuation(boolean currencyType) throws Exception {
@@ -99,7 +99,8 @@ public class SecuritiesAccount extends SecuritiesAbstract {
 		this.result.setDeptCd(this.deptCd);
 			
 		this.result.setLegType(DEF_LEG_NAME);		    	
-		this.result.setCurrency(currencyType ? this.currency : DEF_CURRENCY);		
+//		this.result.setCurrency(currencyType ? this.currency : DEF_CURRENCY);		
+		this.result.setCurrency(this.currency);		
 			    	
     	for(Integer fe : financialElements) {			    		
     		this.result.setResultType(String.format("%02d",fe));
