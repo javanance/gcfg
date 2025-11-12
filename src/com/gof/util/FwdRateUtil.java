@@ -59,8 +59,10 @@ public class FwdRateUtil extends GregorianCalendar {
 //								+ Period.between(baseDt.withDayOfMonth(1), cf.getIntEndDate().withDayOfMonth(1)).getMonths();
 		
 		
-//		log.info("fwd rate : {},{},{},{},{},{},{},{},{},{}",  cfDate,shortMon, longMon, intTerm);
-		double shortRate 	= ts.get(shortMon);
+		log.info("fwd rate : {},{},{},{},{},{},{},{},{},{}",  cfDate,shortMon, longMon, intTerm);
+		// 25.11.06 shortRate err
+//		double shortRate 	= ts.get(shortMon);
+		double shortRate 	= ts.getOrDefault(shortMon, ts.getOrDefault(1L, 0.0));
 		double longRate 	= ts.get(longMon);
 		
 		
