@@ -60,7 +60,10 @@ public class FwdRateUtil extends GregorianCalendar {
 		
 		
 //		log.info("fwd rate : {},{},{},{},{},{},{},{},{},{}",  cfDate,shortMon, longMon, intTerm);
-		double shortRate 	= ts.get(shortMon);
+
+		// 25.11.06 shortRate err 
+//		double shortRate 	= ts.get(shortMon);
+		double shortRate 	= ts.getOrDefault(shortMon, ts.getOrDefault(1L, 0.0));
 		double longRate 	= ts.get(longMon);
 		
 		
